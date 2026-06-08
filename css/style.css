@@ -1,0 +1,403 @@
+/* --- CONFIGURATION GÃ‰NÃ‰RALE --- */
+:root{
+    --trait: 2px;
+    --grid-max-width: 960px;
+    --grid-side-padding: 12px;
+
+    --cell-min: 16px;
+    --cell-max: 55px;
+
+    --correct: #e7002a;
+    --present: #ffbd00;
+    --absent: #38a6d8;
+
+    --lettre-case: #fff;
+    
+    --miseenavant: #e7002a;
+    --miseenavant2 : #ffbd00;
+    --miseenavant3 : #38a6d8; 
+
+    --fond : #fefefe;
+    --texte: #333;
+
+    --sous-titre-motchus: #555;
+
+    --lettre-clavier: #333;
+    --lettre-clavier-correct: #fff;
+    --lettre-clavier-present: #fff;
+    --lettre-clavier-absent: #999;
+
+    --fond-clavier: #eee;
+    --bord-clavier: #ddd;
+    --fond-clavier-correct: var(--correct);
+    --fond-clavier-present: var(--present);
+    --fond-clavier-absent : #fff;
+ 
+  
+  }
+
+html[data-theme="dark"]{
+  --fond: #0b0b0d;
+  --sous-titre-motchus: #aaa;
+  --lettre-clavier: #fff;
+  --fond-clavier: var(--fond);
+  --lettre-clavier-absent : #eee;
+  --fond-clavier-absent : #777;
+}
+
+html[data-theme="dark"] #clavier button{
+  font-weight: normal;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: "Roboto Regular";
+    src: url("Roboto-Regular.ttf") format("truetype");
+}
+
+body {
+    font-family: "Roboto Regular", Helvetica, Arial, sans-serif;
+    text-align: center;
+    background-color: var(--fond);
+    color: var(--texte) ;
+    margin: 0;
+    padding: 2px;
+    line-height: 1.2;
+}
+
+header{
+  position: relative;
+  max-width: 500px;
+  margin: 0 auto;   /* centre le header */
+}
+
+
+header h1 {
+    margin: 10px 0 5px 0;
+    color: var(--miseenavant); 
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+header p {
+    margin: 0 0 15px 0;
+    font-style: italic;
+    color: #777;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 15px auto;
+    width: 90%;
+    max-width: 500px;
+}
+
+
+/* --- Bouton Son, thÃ¨me  --- */
+
+.btn-theme{
+  position: absolute;
+  top: 54px;
+  right: 12px;
+}
+
+ .btn-son{
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+
+.btn-theme, .btn-son{
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+
+  color: #333;
+  line-height: 1;
+  font-size: 18px;
+}
+
+.btn-theme:hover, .btn-son:hover{ opacity: 0.85; }
+.btn-theme:active, .btn-son:active{ transform: scale(0.95); }
+
+
+/* --- Zone de message (ComplÃ©ment, erreurs) --- */
+#zone-message {
+  max-width: 500px;
+  margin: 5px auto;
+  padding: 5px;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  background-color: #fcfcfc;
+  justify-content: center;
+  /*display: flex;
+  align-items: center;
+  flex-direction: column;*/
+}
+
+#zone-message:empty {
+	display: none;
+}
+
+#grille-jeu{
+    width: min(100%, var(--grid-max-width));
+    margin: 10px auto;
+    padding: var(--trait) var(--grid-side-padding);
+  
+    /* Les traits sont le â€œfondâ€ visible dans les gaps */
+    /*background: #fff;*/
+  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
+    /* Trait entre les lignes */
+    gap: var(--trait);
+  }
+  
+  .ligne{
+    /* Taille responsive des cases, basÃ©e sur la largeur dispo */
+    --cell: clamp(
+      var(--cell-min),
+      calc(
+        (min(100vw, var(--grid-max-width))
+        - (2 * var(--grid-side-padding))
+        - (2 * var(--trait))
+        - ((var(--cols) - 1) * var(--trait)))
+        / var(--cols)
+      ),
+      var(--cell-max)
+    );
+  
+    display: grid;
+    grid-template-columns: repeat(var(--cols), var(--cell));
+  
+    /* Trait entre les cases */
+    gap: var(--trait);
+  
+    justify-content: center;
+  }
+  
+  .case{
+    width: var(--cell);
+    height: var(--cell);
+  
+    box-sizing: border-box;
+  
+    border: none;
+  
+    background-color: var(--absent) ;
+    color: var(--lettre-case);
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    font-weight: 800;
+    font-size: clamp(8px, calc(var(--cell) * 0.58), min(30px, calc(var(--cell) - 6px)));
+
+    text-transform: uppercase;
+  
+    touch-action: manipulation;
+    position: relative;
+  }
+#touche-EFFACER {
+    font-weight: 900;
+}
+.case:empty::before {
+    content: ".";
+}
+
+/* On ne change QUE lors de la validation */
+.case.correct { background-color: var(--correct);  }
+.case.present { background-color: var(--present);  }
+.case.absent  { background-color: var(--absent);  } 
+
+/* Animation de rÃ©vÃ©lation */
+@keyframes revelationCase {
+    0% {transform: scale(1);
+    }
+    50% {transform: scale(1.1); 
+    }
+    100% {transform: scale(1); 
+    }
+}
+
+.case.correct, .case.present, .case.absent {
+    animation: revelationCase 0.5s ease ;
+}
+
+/* --- Aide */
+.aide{
+  color: var(--miseenavant3)   ;
+}
+
+
+/* --- L'affichage final*/
+.image-def{
+  display:block;
+  width:100%;
+  max-width:500px;
+  height:auto;
+  margin:12px auto 0;
+}
+
+#message-final{
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 15px;
+  text-align: left;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
+
+/* Carte des liens (mÃªme design que #zone-jour) */
+#zone-liens{
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 15px;
+  text-align: left;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
+
+.liens-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.lien-carte{
+  display: block;
+  padding: 12px;
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid #eee;
+  text-decoration: none;
+  font-weight: 800;
+  color: #38a6d8;
+  text-align:center;
+}
+
+.lien-carte:hover{
+  border-color: var(--miseenavant3) ;
+}
+
+
+
+/* --- CLAVIER VIRTUEL (robuste petits Ã©crans) --- */
+#clavier{
+    width: min(100%, 600px);
+    margin: 10px auto;
+    padding: 0 10px;
+}
+
+@media (max-width: 360px){
+    #clavier{ padding: 2px ; }
+}
+
+
+.ligne-clavier{
+    display: flex;
+    justify-content: center;
+   
+    gap: var(--trait);
+    margin-bottom: var(--trait);
+
+    touch-action: manipulation;
+}
+
+#clavier button{
+    /*height: clamp(36px, 9vw, 55px);*/
+    box-sizing: border-box;
+    height: clamp(40px, 15vw, 60px);
+    font-size: clamp(0.85rem, 3.6vw, 1.1rem);
+    line-height: 1;
+
+    margin: 1px;
+    padding: 0;
+
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 45px; 
+
+    color: var(--lettre-clavier) ;  
+    background-color: var(--fond-clavier) ;
+    /* border: none; */
+    border: 1px solid var(--bord-clavier);
+    border-radius: clamp(4px, 1.2vw, 8px);
+
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+#clavier button:active{
+    background-color: #ccc;
+    transform: translateY(2px);
+}
+
+
+
+#clavier button.touche-correct { color: var(--lettre-clavier-correct); background-color: var(--fond-clavier-correct);  }
+#clavier button.touche-present { color: var(--lettre-clavier-present); background-color: var(--fond-clavier-present);  }
+#clavier button.touche-absent  { color: var(--lettre-clavier-absent); background-color: var(--fond-clavier-absent);  }
+
+
+/* --- Bouton de partage ---*/
+.cliquable-partage {
+    
+        cursor: pointer;
+        text-decoration: underline; 
+        color: #38a6d8; 
+}
+
+.cliquable-partage:hover {
+    color: rgba(231, 0, 42, 0.8);
+}
+
+/* --- les panels --- */
+#zone-messagefinal, #zone-jour, #zone-hier, #regles {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 0 15px;
+    text-align: left;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+#zone-messagefinal:empty {
+	display: none;
+}
+
+h3{
+    margin-top: 0;
+    color: #444;
+    border-left: 4px solid var(--miseenavant);
+    padding-left: 10px;
+}
+
+#zone-jour b, #zone-hier b {
+    color: var(--miseenavant);
+    font-size: 1.2rem;
+}
+
+#zone-messagefinal a, #zone-jour a, #zone-hier a {
+    color: var(--miseenavant3);
+}
