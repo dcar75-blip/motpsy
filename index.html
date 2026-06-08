@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MotPsy - Le jeu en VO Psy*</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="Logo_Fond_Blanc.png" sizes="32x32" />
+    <link rel="icon" href="Logo_Fond_Blanc.png" sizes="64x64" />
+    <link rel="icon" href="Logo_Fond_Blanc.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="Logo_Fond_Blanc.png" sizes="192x192" />
+    <meta property="og:title" content="MotPsy - Le jeu en VO Psy*" />
+    <meta property="og:description" content="Chaque jour un mot du monde psy* à deviner en 6 essais. Freud, Lacan, Winnicott, systémique, humaniste... tous les courants sont les bienvenus !" />
+    <meta property="og:url" content="https://motpsy.fr" />
+    <meta property="og:image" content="https://motpsy.fr/Logo_Fond_Blanc.png" />
+    <meta property="og:type" content="website" />
+    <link rel="manifest" href="/manifest.json">
+    <style>
+        header img.logo { height: 60px; display: block; margin: 0 auto 6px auto; }
+        img.logo-clair  { display: block; }
+        img.logo-sombre { display: none; }
+        [data-theme="dark"] img.logo-clair  { display: none; }
+        [data-theme="dark"] img.logo-sombre { display: block; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="Logo_Fond_Blanc.png" alt="MotPsy" class="logo logo-clair" />
+        <img src="Logo_MoyPSy_Transp.png" alt="MotPsy" class="logo logo-sombre" />
+        <h1>MotPsy<button id="btn-son" class="btn-son" type="button" aria-label="Son">🔇</button></h1>
+        <p>Le jeu en VO Psy*<button id="btn-theme" class="btn-theme" type="button" aria-label="Thème Sombre/clair">☀️</button></p>
+    </header>
+
+    <hr>
+
+    <div id="zone-message"></div>
+    <div id="zone-fin"></div>
+    <div id="grille-jeu"></div>
+
+    <div id="clavier">
+        <div class="ligne-clavier" id="clavier-L0"></div>
+        <div class="ligne-clavier" id="clavier-L1"></div>
+        <div class="ligne-clavier" id="clavier-L2"></div>
+        <div class="ligne-clavier" id="clavier-L3"></div>
+    </div>
+
+    <hr>
+
+    <div id="zone-hier"></div>
+
+    <div id="regles">
+        <h3>Comment jouer ?</h3>
+        <p>
+            Chaque jour, un nouveau mot du monde psy* à deviner en 6 essais.<br />
+            Vous avez six essais pour deviner le mot du jour. Vous ne pouvez proposer que des mots commençant par la même lettre que le mot recherché, et qui se trouvent dans notre dictionnaire… qui comprend bien sûr des mots psys.<br />
+            🟥 Lettre bien placée — 🟨 Lettre présente mais mal placée — 🟦 Lettre absente<br />
+            Un seul mot par jour, identique pour tout le monde. Évitez les spoils, utilisez le bouton Copier pour partager votre résultat !<br /><br />
+
+            <strong>MotPsy, c'est un jeu pour toute la communauté psy*.</strong><br />
+            Psychanalyse, psychologie clinique, psychiatrie, thérapies humanistes, systémique, bioénergie, psychodrame… tous les courants, toutes les écoles sont les bienvenus.<br /><br />
+
+            <strong>Vous voulez proposer un mot ?</strong><br />
+            Envoyez un mail à <a href="mailto:motpsy@motpsy.fr">motpsy@motpsy.fr</a> avec :<br />
+            — le mot (ou le nom d'un psy à faire deviner)<br />
+            — une courte définition ou une anecdote<br />
+            Je vous préviendrai du jour de mise en ligne 🙂<br /><br />
+
+            Et si vous êtes Psy* (* = chanalyste / chologue / chiatre / cothérapeute / chopraticien·ne / étudiant·e psy),
+            n'hésitez pas à préciser où vous exercez et votre courant ou société d'appartenance.<br /><br />
+
+            <em>MotPsy est une idée de <a href="https://bsky.app/profile/didiercllo.bsky.social">@didiercllo.bsky.social</a> (SFPI).<br />
+            Inspiré de <a href="https://motchus.fr">Motchus</a> de
+            <a href="https://bsky.app/profile/medericgc.bsky.social">@medericgc.bsky.social</a> et
+            <a href="https://bsky.app/profile/armavi.bsky.social">@armavi.bsky.social</a>,
+            lui-même inspiré de <a href="https://sutom.nocle.fr/">SUTOM</a> de @Jonamaths — basé sur Wordle et le regretté Motus.<br />
+            Lexique standard : <a href="https://grammalecte.net/">Grammalecte</a>.</em>
+        </p>
+    </div>
+
+    <script src="mots/dictionnaire.js?v=20260601"></script>
+    <script src="mots/motsatrouver.js?v=20260601"></script>
+    <script src="mots/messages.js?v=20260601"></script>
+    <script src="js/calendrier.js?v=20260601"></script>
+    <script src="js/config.js?v=20260601"></script>
+    <script src="js/affichage.js?v=20260601"></script>
+    <script src="js/clavier.js?v=20260601"></script>
+    <script src="js/sauvegarde.js?v=20260601"></script>
+    <script src="js/son.js?v=20260601"></script>
+    <script src="js/theme.js?v=20260601"></script>
+    <script src="js/moteur.js?v=20260601"></script>
+    <script src="js/fin-partie.js?v=20260601"></script>
+    <script src="js/init.js?v=20260601"></script>
+
+</body>
+</html>
