@@ -106,30 +106,23 @@ async function rejouerPartie(etat) {
 }
 
 function messageCaracteresSpeciaux(mot) {
-    const contientTiret = mot.includes("-");
-    const contientEspace = mot.includes(" ");
-    const contientApostrophe = mot.includes("'") || mot.includes("’");
+    // Récupère la catégorie du mot du jour : [mot, définition, catégorie, photo]
+    const categorie = (infosMots && infosMots.aujourdhui && infosMots.aujourdhui[2])
+        ? infosMots.aujourdhui[2].trim().toLowerCase()
+        : "";
 
-    // Espace + apostrophe
-    if (contientEspace && contientApostrophe) {
-        return "Mèfi, on cherche une expression en plusieurs mots, avec espace(s) et apostrophe(s).";
+    switch (categorie) {
+        case "composé":
+        case "compose":
+            return "Aujourd'hui, un mot composé (avec un ou des tirets).";
+        case "vip":
+            return "Aujourd'hui, une Very Important Personnalité de la psychanalyse (format Initiale du prénom-Nom en entier).";
+        case "vo":
+            return "Achtung ! Aujourd'hui un mot dans sa langue d'origine (souvent l'allemand).";
+        case "lacan":
+            return "🛋️ Le Jour de Lacan ! Une notion du vocabulaire lacanien.";
+        default:
+            // Classique ou catégorie inconnue : pas de message
+            return "";
     }
-
-    // Tiret
-    if (contientTiret) {
-        return "Mèfi, on cherche un mot composé avec un tiret.";
-    }
-
-    // Espace seul
-    if (contientEspace) {
-        return "Mèfi, on cherche une expression (plusieurs mots avec un ou des espaces).";
-    }
-
-    // Apostrophe seule
-    if (contientApostrophe) {
-        return "Mèfi, le mot contient une apostrophe.";
-    }
-
-    // Aucun cas
-    return "";
 }
