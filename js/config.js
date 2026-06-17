@@ -8,7 +8,7 @@ texteGagne: "Bien joué !",
 textePerdu: "Perdu ! Une séance et ça ira mieux !",
 texteTropCourt : "Le mot proposé est trop court.",
 textePasDico : "Ce mot n'est pas dans notre dictionnaire.",
-    texteprefixAide:"<i>Tu t'en sors ou on va chercher Molinàri ?</i><br>Indice : ",
+    texteprefixAide:"<i>Tu t'en sors ou on va chercher Laplanche et Pontalis ?</i><br>Indice : ",
 };
 
 
