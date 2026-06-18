@@ -1,8 +1,4 @@
-const MESSAGE_INITIAL = [``, "20260125", "20260125"];
-const MESSAGE_FINAL = [`<div style=' text-align:center;'><span style='color:#e7002a; font-size:1.6rem; font-weight:bold;'Ce samedi, Motchus s'invite à l'Alcazar !</span><br> À 17h à la bibliothèque de Marseille, Médéric Gasquet-Cyrus anime un atelier du parler marseillais et vous fait jouer à Motchus, en groupe !</div>`, "20260515", "20260516"];
-const MESSAGE_FINALtypemotchus = [`<div style=' text-align:center;'><span style='color:#e7002a; font-size:1.6rem; font-weight:bold;'>Spécial Saint-Valentin</span><br>Trouvez 20 mots marseillais en lien avec la Saint-Valentin !<br><a href='valentinvalentchine/'>https://motchus.fr/valentinvalentchine</a></div>`, "20260101", "20260101"];
-const MESSAGE_FINALtypeliens = [`
-            <h3>Série spéciale</h3>
-            <div class="liens-grid" style="grid-template-columns: none; max-width:100%; margin:0; padding:0;">
-                <a class="lien-carte" href="henri-blanc/" style="text-align:left;" >Trouvez 20 mots d'Henri-Frédéric Blanc</a>
-            </div>`, "20260125", "20260205"];
+const MESSAGE_INITIAL = [`<div style="text-align:center;"><span style="color:#e7002a; font-size:1.4rem; font-weight:bold;">Bienvenue sur MotPsy&nbsp;!</span><br><br>Un jeu fait par les psys, pour les psys.<br><br>Parce que le fun n'est pas l'ennemi de l'érudition — qu'elle vienne d'une société ou d'une autre. Psychanalyse, systémique, humanisme, psychodrame, bioénergie… tous les courants ont leur place ici.<br><br>Un mot par jour à deviner. À vous de jouer&nbsp;!<br><br><b>Et si vous participiez&nbsp;?</b> Un mot que vous chérissez, une définition concoctée par vous aux petits oignons&nbsp;? Écrivez-nous à <a href="mailto:motpsy@motpsy.fr">motpsy@motpsy.fr</a> — vos propositions enrichiront le jeu.</div>`, "20260618", "20260618"];
+const MESSAGE_FINAL = [``, "", ""];
+const MESSAGE_FINALtypemotchus = [``, "", ""];
+const MESSAGE_FINALtypeliens = [``, "", ""];
