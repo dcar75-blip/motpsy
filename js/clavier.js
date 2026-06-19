@@ -21,7 +21,7 @@ function genererClavier() {
         div.innerHTML = "";
 
         if (i === 2) {
-			if (infosMots.aujourdhui[2]) {
+			if (infosMots.aujourdhui[6]) {
 				div.innerHTML += `<button id="touche-AIDE" onclick="afficherAide()">💡</button>`;
 			}
 
