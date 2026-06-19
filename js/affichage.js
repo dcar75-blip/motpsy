@@ -69,7 +69,7 @@ function afficherHier() {
   const conteneurHier = document.getElementById('zone-hier');
   if (!conteneurHier) return;
 
-  if (infosMots.hier[0]) {
+if (infosMots.hier && infosMots.hier[0]) {
     conteneurHier.style.display = "";
     conteneurHier.innerHTML =
       `<h3>Le motpsy d'hier</h3><p><b>${infosMots.hier[0]}</b> <br/> ${MarkdownVersHtml(infosMots.hier[1])}</p>`;
