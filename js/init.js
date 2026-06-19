@@ -106,23 +106,33 @@ async function rejouerPartie(etat) {
 }
 
 function messageCaracteresSpeciaux(mot) {
-    // Récupère la catégorie du mot du jour : [mot, définition, catégorie, photo]
     const categorie = (infosMots && infosMots.aujourdhui && infosMots.aujourdhui[2])
         ? infosMots.aujourdhui[2].trim().toLowerCase()
         : "";
+    const motDuJour = (infosMots && infosMots.aujourdhui && infosMots.aujourdhui[0])
+        ? infosMots.aujourdhui[0].trim().toUpperCase()
+        : "";
+    const contientTiret = motDuJour.includes("-");
 
+    let messages = [];
+
+    // Message lié à la catégorie
     switch (categorie) {
-        case "composé":
-        case "compose":
-            return "Aujourd'hui, un mot composé (avec un ou des tirets).";
         case "vip":
-            return "Aujourd'hui, une Very Important Personnalité de la psychanalyse (format Initiale du prénom-Nom en entier).";
+            messages.push("Aujourd'hui, une Very Important Personnalité de la psychanalyse... ou un cas clinique célèbre !");
+            break;
         case "vo":
-            return "Achtung ! Aujourd'hui un mot dans sa langue d'origine (souvent l'allemand).";
+            messages.push("Achtung ! Aujourd'hui un mot dans sa langue d'origine (souvent l'allemand).");
+            break;
         case "lacan":
-            return "🛋️ Le Jour de Lacan ! Une notion du vocabulaire lacanien.";
-        default:
-            // Classique ou catégorie inconnue : pas de message
-            return "";
+            messages.push("🛋️ Le Jour de Lacan ! Une notion du vocabulaire lacanien.");
+            break;
     }
+
+    // Attribut transversal : tiret (s'applique quelle que soit la catégorie)
+    if (contientTiret) {
+        messages.push("Attention, le mot comporte un ou des tirets.");
+    }
+
+    return messages.join(" ");
 }
