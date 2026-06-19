@@ -1,5 +1,11 @@
 const infosMots = obtenirInfosMots();
 const motSolution = infosMots.aujourdhui[0].toUpperCase();
+const cacherPremiere = (infosMots.aujourdhui[4] === true ||
+                        String(infosMots.aujourdhui[4]).trim().toLowerCase() === "oui");
+function offrirPremiereLettre() {
+    if (cacherPremiere) return false;
+    return motSolution.length >= CONFIG.seuilOffrePremiere;
+}
 const nbLettres = motSolution.length;
 document.documentElement.style.setProperty('--cols', nbLettres);
 
