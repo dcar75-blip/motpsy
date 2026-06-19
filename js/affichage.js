@@ -80,7 +80,7 @@ if (infosMots.hier && infosMots.hier[0]) {
 
 
 function afficherAide() {
-    const complement = infosMots.aujourdhui[2];
+    const complement = infosMots.aujourdhui[6];
     if (!complement) return;
     notifier( `${CONFIG.texteprefixAide} <span class="aide"> ${MarkdownVersHtml(complement)}</span>`, CONFIG.dureeMessageAide); 
     
