@@ -41,7 +41,7 @@ async function valider() {
 function reconstituerMotFinal() {
     let final = "";
     let curseur = 0;
-    const offrePremiere = (motSolution.length >= CONFIG.seuilOffrePremiere);
+const offrePremiere = offrirPremiereLettre();
     const aTapePremiere = offrePremiere && essaiActuel[0] === motSolution[0];
 
     for (let i = 0; i < motSolution.length; i++) {
