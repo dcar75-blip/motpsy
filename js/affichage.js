@@ -17,7 +17,7 @@ function initialiserGrille() {
 
 function majAffichage() {
     const cases = document.querySelectorAll(`#ligne-${ligneActuelle} .case`);
-    const offrePremiere = (motSolution.length >= CONFIG.seuilOffrePremiere);
+const offrePremiere = offrirPremiereLettre();
     let curseurSaisie = 0;
     const aTapePremiere = offrePremiere && essaiActuel[0] === motSolution[0];
 
