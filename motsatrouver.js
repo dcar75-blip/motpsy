@@ -5,6 +5,16 @@
 // L'indice (si présent) fait apparaître le bouton 💡 ; vide = pas de bouton.
 
 const LISTE_MOTS_A_TROUVER = [
+  [`REFOULEMENT`, `Processus par lequel le sujet repousse et maintient dans l'inconscient des représentations liées à une pulsion.`, `Classique`, ``, false, `2026-08-01`, ``],
+  [`PULSION`, `Poussée énergétique d'origine corporelle orientant le sujet vers un but ; charnière entre le somatique et le psychique.`, `Classique`, ``, true, `2026-08-02`, ``],
+  [`FREUD`, `Sigmund Freud (1856-1939), neurologue autrichien, fondateur de la psychanalyse.`, `VIP`, ``, false, `2026-08-03`, ``],
+  [`SECHEHAYE`, `Marguerite Sechehaye (1887-1964), psychanalyste suisse, théoricienne de la « réalisation symbolique ».`, `VIP`, ``, false, `2026-08-04`, ``],
+  [`ANGST`, `« Angoisse » en allemand, notion centrale de la pensée freudienne comme de l'existentialisme.`, `VO`, ``, false, `2026-08-05`, ``],
+  [`JOUISSANCE`, `Chez Lacan, satisfaction paradoxale située au-delà du principe de plaisir, mêlée de souffrance.`, `Lacan`, ``, false, `2026-08-06`, ``],
+  [`MOI-IDEAL`, `Instance idéale héritée du narcissisme primaire, modèle de toute-puissance (à distinguer de l'idéal du moi).`, `Classique`, ``, false, `2026-08-07`, ``],
+  [`STADE-DU-MIROIR`, `Moment où l'enfant s'identifie à sa propre image et constitue son moi par anticipation (Lacan, 1949).`, `Lacan`, ``, false, `2026-08-08`, ``],
+  [`SUBLIMATION`, `Dérivation de la pulsion vers un but non sexuel socialement valorisé : art, recherche, création.`, `Classique`, ``, false, `2026-08-09`, `Quand la pulsion se met au service de l'art ou du savoir…`],
+  [`JUNG`, `Carl Gustav Jung (1875-1961), psychiatre suisse, fondateur de la psychologie analytique.`, `VIP`, ``, true, `2026-08-10`, ``],
   [`ANGOISSE`, `Une notion intimement liée à l'histoire de la psychanalyse (et de l'humanité !). Freud l'a d'abord définie comme un résultat, avant de la mettre à l'origine du refoulement (1926). Mélanie Klein en a fait un concept clef de sa pratique "l'interprétation doit porter sur le point d'angoisse maximal" (F. Palasio Espasa, Dictionnaire international de la psychanalyse, 2002)
 Un "mini" podcast sur le sujet :  https://www.radiofrance.fr/franceinter/podcasts/les-mots-du-psy/l-angoisse-1226041`, `Classique`, ``, false, `2026-06-18`, `Sentiment pénible d'attente d'un danger imprécis.`],
   [`DENI`, `Un prof avait pour habitude de dire parlant des pervers "Oui, je sais, mais...". 
