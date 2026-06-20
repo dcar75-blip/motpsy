@@ -124,3 +124,36 @@ function messageCaracteresSpeciaux(mot) {
 
     return messages.join("<br>");
 }
+function afficherEcranPreLancement() {
+    const LANCEMENT = new Date("2026-09-01T00:00:00");
+    const joursRestants = Math.max(0, Math.ceil((LANCEMENT - new Date()) / 86400000));
+    const texteCompte = joursRestants > 0
+        ? "dans " + joursRestants + " jour" + (joursRestants > 1 ? "s" : "")
+        : "aujourd'hui !";
+
+    const style = document.createElement("style");
+    style.textContent = `
+        #ecran-prelancement{position:fixed;inset:0;z-index:9999;display:flex;
+            align-items:center;justify-content:center;background:#fff;padding:24px;
+            font-family:system-ui,Arial,sans-serif;text-align:center;}
+        #ecran-prelancement .pl-logo{width:200px;max-width:70%;height:auto;margin-bottom:18px;}
+        #ecran-prelancement .pl-titre{font-size:1.5rem;font-weight:700;color:#e7002a;margin-bottom:6px;}
+        #ecran-prelancement .pl-compte{font-size:1.1rem;color:#F0C030;font-weight:700;margin-bottom:20px;}
+        #ecran-prelancement .pl-texte{font-size:1rem;color:#333;line-height:1.5;max-width:440px;margin:0 auto 22px;}
+        #ecran-prelancement .pl-contact{display:inline-block;padding:10px 22px;border-radius:8px;
+            background:#60C0F0;color:#fff;text-decoration:none;font-weight:700;}
+    `;
+    document.head.appendChild(style);
+
+    const overlay = document.createElement("div");
+    overlay.id = "ecran-prelancement";
+    overlay.innerHTML = `
+        <div>
+            <img class="pl-logo" src="Logo_MoyPSy_Transp.png" alt="MotPsy" />
+            <div class="pl-titre">🚀 Ouverture le 1ᵉʳ septembre 2026</div>
+            <div class="pl-compte">${texteCompte}</div>
+            <p class="pl-texte">Un jeu psy, érudit et œcuménique : toutes les écoles y ont leur place.<br>Premier mot le jour J — à très bientôt&nbsp;!</p>
+            <a class="pl-contact" href="mailto:motpsy@motpsy.fr">Écrivez-nous</a>
+        </div>`;
+    document.body.appendChild(overlay);
+}
