@@ -31,9 +31,13 @@ function hashChaine(str) {
 // Choisit le mot du jour à partir de sa DATE (et non de sa position dans la liste).
 // Format d'une entrée : [mot, définition, catégorie, photo, cacher1ereLettre, date]
 function obtenirInfosMots() {
-    const cleAujourdhui = obtenirCleJourMarseille();
+   let cleAujourdhui = obtenirCleJourMarseille();
+    // Override de test : ?date=AAAA-MM-JJ force le jour courant (tests + futur mode événement)
+    const dateForcee = new URLSearchParams(location.search).get("date");
+    if (dateForcee && /^\d{4}-\d{2}-\d{2}$/.test(dateForcee)) {
+        cleAujourdhui = dateForcee;
+    }
     const cleHier = obtenirCleJourMarseille(new Date(Date.now() - 86400000));
-
     // Indexation des mots par date
     const parDate = {};
     for (const entree of LISTE_MOTS_A_TROUVER) {
