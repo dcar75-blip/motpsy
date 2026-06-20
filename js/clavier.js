@@ -3,9 +3,7 @@ function genererClavier() {
     
     const autoriseApostrophe = motSolution.includes("'") || motSolution.includes("’");
     const autoriseEspace = motSolution.includes(" ");
-    // const autoriseTiret =  motSolution.includes("-") || (!autoriseEspace && !autoriseApostrophe);
-	// On affiche toujours le tiret
-	const autoriseTiret = true;
+    const autoriseTiret = motSolution.includes("-");
 	
     const divLigne0 = document.getElementById(`clavier-L0`);
 
