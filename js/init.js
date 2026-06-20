@@ -19,6 +19,13 @@ let audioCtxSon = null;
 let modeSombre = false;   // clair par défaut
 themeInit();
 window.onload = () => {
+    // 0. Écran de pré-lancement : avant le 1ᵉʳ septembre 2026 (sauf si ?date= présent, pour tes tests)
+    if (infosMots.index < 0 && !new URLSearchParams(location.search).has("date")) {
+        afficherEcranPreLancement();
+        return;
+    }
+
+    // 1. On affiche le mot d'hier dans le footer
     // 1. On affiche le mot d'hier dans le footer
     if (typeof afficherHier === "function") {
         afficherHier();
