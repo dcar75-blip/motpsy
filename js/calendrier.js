@@ -61,5 +61,11 @@ function obtenirInfosMots() {
     // Mot d'hier (par date) ; si absent, la section "mot d'hier" sera masquée.
     const hier = parDate[cleHier] || null;
 
-    return { aujourdhui, hier };
+   // Numéro du jour : compteur calendaire depuis le lancement (2026-09-01 = MotPsy n°1)
+    const DATE_LANCEMENT = "2026-09-01";
+    const [Y, M, J]    = cleAujourdhui.split("-").map(Number);
+    const [LY, LM, LJ] = DATE_LANCEMENT.split("-").map(Number);
+    const index = Math.round((Date.UTC(Y, M - 1, J) - Date.UTC(LY, LM - 1, LJ)) / 86400000);
+
+    return { aujourdhui, hier, index };
 }
