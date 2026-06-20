@@ -65,19 +65,22 @@ function notifier(msg, duree = 3000) {
 }
 
 function afficherHier() {
+    const conteneurHier = document.getElementById('zone-hier');
+    if (!conteneurHier) return;
 
-  const conteneurHier = document.getElementById('zone-hier');
-  if (!conteneurHier) return;
-
-if (infosMots.hier && infosMots.hier[0]) {
-    conteneurHier.style.display = "";
-    conteneurHier.innerHTML =
-      `<h3>Le motpsy d'hier</h3><p><b>${infosMots.hier[0]}</b> <br/> ${MarkdownVersHtml(infosMots.hier[1])}</p>`;
-  } else {
-    conteneurHier.style.display = "none";
-  }
+    if (infosMots.index === 0) {
+        // Jour du lancement : il n'y a pas de mot d'hier
+        conteneurHier.style.display = "";
+        conteneurHier.innerHTML =
+            `<h3>Le motpsy d'hier</h3><p>🎉 Premier jour de MotPsy : pas encore de mot d'hier&nbsp;!</p>`;
+    } else if (infosMots.hier && infosMots.hier[0]) {
+        conteneurHier.style.display = "";
+        conteneurHier.innerHTML =
+            `<h3>Le motpsy d'hier</h3><p><b>${infosMots.hier[0]}</b> <br/> ${MarkdownVersHtml(infosMots.hier[1])}</p>`;
+    } else {
+        conteneurHier.style.display = "none";
+    }
 }
-
 
 function afficherAide() {
     const complement = infosMots.aujourdhui[6];
