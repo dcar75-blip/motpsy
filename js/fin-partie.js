@@ -56,7 +56,11 @@ function terminer(victoire) {
 }
 function afficherLienRejouer() {
     const DEBUT_OFFICIEL = "2026-09-01";
-    const cleJour = obtenirCleJourMarseille();
+    let cleJour = obtenirCleJourMarseille();
+    const dateForcee = new URLSearchParams(location.search).get("date");
+    if (dateForcee && /^\d{4}-\d{2}-\d{2}$/.test(dateForcee)) {
+        cleJour = dateForcee;
+    }
 
     const pool = LISTE_MOTS_A_TROUVER.filter(e => {
         const d = normaliserDate(e[5]);
