@@ -25,7 +25,12 @@ window.onload = () => {
         return;
     }
 
-    // 1. On affiche le mot d'hier dans le footer
+    // Photo Lacan : visible uniquement les jours de catégorie "lacan"
+    if (infosMots.aujourdhui[2] && infosMots.aujourdhui[2].trim().toLowerCase() === "lacan") {
+        const photoLacan = document.getElementById("photo-lacan");
+        if (photoLacan) photoLacan.style.display = "block";
+    }
+
     // 1. On affiche le mot d'hier dans le footer
     if (typeof afficherHier === "function") {
         afficherHier();

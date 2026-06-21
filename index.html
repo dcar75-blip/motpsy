@@ -20,11 +20,24 @@
         img.logo-sombre { display: none !important; }
         [data-theme="dark"] img.logo-clair  { display: none !important; }
         [data-theme="dark"] img.logo-sombre { display: block !important; }
+        #photo-lacan {
+            display: none;
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #e7002a;
+        }
     </style>
 </head>
 <body>
 
     <header>
+        <img id="photo-lacan" src="images/lacan.jpg" alt="Lacan" />
         <img src="Logo_Fond_Blanc.png" alt="MotPsy" class="logo logo-clair" />
         <img src="Logo_MoyPSy_Transp.png" alt="MotPsy" class="logo logo-sombre" />
       <h1 style="display:none;">MotPsy</h1><button id="btn-son" class="btn-son" type="button" aria-label="Son">🔇</button>
