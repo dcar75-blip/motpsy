@@ -126,7 +126,8 @@ function afficherMessageinitial() {
 
             // Si pas dans la fenêtre, on n'ajoute pas le texte (mais on garde l'avert)
             if (!(debut && today < debut) && !(fin && today > fin)) {
-                message = MarkdownVersHtml(texte);
+                const texteInitial = MarkdownVersHtml(texte);
+                message = message ? message + "<br>" + texteInitial : texteInitial;
             }
         }
     }

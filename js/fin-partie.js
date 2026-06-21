@@ -4,6 +4,7 @@ function terminer(victoire) {
         if (prisEnCharge) return;
     }
     partieTerminee = true;
+    if (notifTimeout) clearTimeout(notifTimeout);
     const zoneMsg = document.getElementById('zone-message');
     const zoneFin = document.getElementById('zone-fin');
     const numeroMotpsy = infosMots.index + 1;
@@ -93,6 +94,6 @@ function genererGrillePartage(victoire) {
 }
 function copierPartage(texte) {
     navigator.clipboard.writeText(texte).then(() => {
-        notifier("Score copié dans le presse-papier !");
+        if (!partieTerminee) notifier("Score copié dans le presse-papier !");
     });
 }
