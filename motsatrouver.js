@@ -39,7 +39,7 @@ L'actualité quotidienne fournit fréquemment des exemples de déni.`, `Classiqu
   [`PROJECTION`, `À compléter`, `Classique`, ``, false, `2025-04-18`, ``],
   [`OBJET-A`, `À compléter`, `Classique`, ``, false, `2025-04-19`, ``],
   [`KLEIN`, `À compléter`, `VIP`, ``, false, `2025-04-20`, ``],
-  [`METAPSYCHOLOGIE`, `À compléter`, `Classique`, ``, false, `2025-04-21`, ``],
+  [`METAPSYCHOLOGIE`, `À compléter`, `Classique`, ``, false, `2026-10-25`, ``],
   [`INTROJECTEE`, `À compléter`, `Classique`, ``, false, `2025-04-22`, ``],
   [`INTRICATION`, `À compléter`, `Classique`, ``, false, `2025-04-23`, ``],
   [`CONTRE-TRANSFERT`, `À compléter`, `Classique`, ``, false, `2026-06-19`, `Ce que l'analyste ressent en réponse à son patient.`],
