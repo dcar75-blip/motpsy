@@ -90,7 +90,8 @@ function afficherLienRejouer() {
     const a = document.createElement('a');
     a.className = 'lien-carte';
     a.href = `/?date=${dateChoisie}`;
-    a.textContent = '🎲 Rejouer une ancienne partie au hasard';
+    a.innerHTML = '<span class="lien-carte-titre">🎲 MotPsy54</span>'
+              + '<span class="lien-carte-sous-texte">Une ancienne partie au hasard</span>';
     grille.appendChild(a);
 }
 function afficherImageDuMot() {

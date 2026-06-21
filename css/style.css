@@ -291,6 +291,16 @@ hr {
 .lien-carte:hover{
   border-color: var(--miseenavant3) ;
 }
+.lien-carte-titre{
+  display: block;
+}
+.lien-carte-sous-texte{
+  display: block;
+  font-size: 0.72em;
+  font-weight: 400;
+  color: #888;
+  margin-top: 3px;
+}
 
 
 
