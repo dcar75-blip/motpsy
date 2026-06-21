@@ -52,6 +52,42 @@ function terminer(victoire) {
     `;
     afficherImageDuMot();
     afficherMessageFinal();
+    afficherLienRejouer();
+}
+function afficherLienRejouer() {
+    const DEBUT_OFFICIEL = "2026-09-01";
+    const cleJour = obtenirCleJourMarseille();
+
+    const pool = LISTE_MOTS_A_TROUVER.filter(e => {
+        const d = normaliserDate(e[5]);
+        return d && d > DEBUT_OFFICIEL && d < cleJour;
+    });
+
+    if (pool.length < 54) return;
+
+    const cleLs = `motpsy_rejoue_ancien_${cleJour}`;
+    let dateChoisie = localStorage.getItem(cleLs);
+
+    if (!dateChoisie) {
+        for (let i = 0; i < localStorage.length; i++) {
+            const k = localStorage.key(i);
+            if (k && k.startsWith("motpsy_rejoue_ancien_") && k !== cleLs) {
+                localStorage.removeItem(k);
+                i--;
+            }
+        }
+        dateChoisie = normaliserDate(pool[hashChaine(cleJour) % pool.length][5]);
+        localStorage.setItem(cleLs, dateChoisie);
+    }
+
+    const grille = document.querySelector('#zone-liens .liens-grid');
+    if (!grille) return;
+
+    const a = document.createElement('a');
+    a.className = 'lien-carte';
+    a.href = `/?date=${dateChoisie}`;
+    a.textContent = '🎲 Rejouer une ancienne partie au hasard';
+    grille.appendChild(a);
 }
 function afficherImageDuMot() {
     const cont = document.getElementById("zone-image-def");
