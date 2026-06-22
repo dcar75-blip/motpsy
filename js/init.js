@@ -124,7 +124,7 @@ function messageCaracteresSpeciaux(mot) {
 
     // Attribut transversal : tiret
     if (contientTiret) {
-        messages.push('<b style="color:#e7002a;">⚠️ Attention, le mot comporte un ou des tirets.</b>');
+        messages.push('<b style="color:#e7002a;">⚠️ Aujourd\'hui, MotPsy est un mot composé ou une expression de 2 mots. Dans les 2 cas, utilisez le tiret du clavier pour séparer les 2 parties (ex : PORTE-MANTEAU).</b>');
     }
 
     return messages.join("<br>");
