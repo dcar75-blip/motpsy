@@ -9,7 +9,12 @@ function terminer(victoire) {
     const zoneFin = document.getElementById('zone-fin');
     const numeroMotpsy = infosMots.index + 1;
     
-    let titre = victoire ? `${CONFIG.texteGagne}` : `${CONFIG.textePerdu}`;
+    function titreVictoire(coups) {
+        if (coups === 1) return "Bravo ! Les voies du Sigmund sont avec toi !";
+        if (coups === 6) return "Résistance vaincue à la dernière minute. Bien joué !";
+        return "Bien joué !";
+    }
+    let titre = victoire ? titreVictoire(ligneActuelle + 1) : `${CONFIG.textePerdu}`;
     let sousTitre1 = victoire
         ? `Trouvé en ${ligneActuelle + 1} coup${(ligneActuelle + 1) > 1 ? "s" : ""}`
         : `Le mot était ${motSolution}`;

@@ -112,13 +112,13 @@ function messageCaracteresSpeciaux(mot) {
     // Message lié à la catégorie
     switch (categorie) {
         case "vip":
-            messages.push('<b style="color:#e7002a;">Aujourd\'hui, une Very Important Personnalité de la psychanalyse... ou un cas clinique célèbre !</b>');
+            messages.push('<b style="color:#e7002a;">On cherche aujourd\'hui une Very Important Personnalité de la psychanalyse... ou un cas clinique célèbre !</b>');
             break;
         case "vo":
-            messages.push('<b style="color:#e7002a;">Achtung ! Aujourd\'hui un mot dans sa langue d\'origine (souvent l\'allemand).</b>');
+            messages.push('<b style="color:#e7002a;">Achtung ! On cherche aujourd\'hui un mot allemand. Tu peux saisir des mots en allemand ou en français indifféremment.</b>');
             break;
         case "lacan":
-            messages.push('<b style="color:#e7002a;">🛋️ Le Jour de Lacan ! Une notion du vocabulaire lacanien.</b>');
+            messages.push('<b style="color:#e7002a;">🛋️ Le Jour de Lacan ! On cherche aujourd\'hui une notion du vocabulaire lacanien.</b>');
             break;
     }
 
