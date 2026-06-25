@@ -12,7 +12,7 @@ async function valider() {
       return;
     }
 
-    if (!DICTIONNAIRE.includes(motSaisi)) {
+    if (motSaisi !== motSolution && !DICTIONNAIRE.includes(motSaisi)) {
       notifier(CONFIG.textePasDico);
       essaiActuel = "";
       majAffichage();
