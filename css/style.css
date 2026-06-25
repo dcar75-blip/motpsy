@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 /* --- CONFIGURATION GÃ‰NÃ‰RALE --- */
 :root{
     --trait: 2px;
@@ -53,13 +55,8 @@ html[data-theme="dark"] #clavier button{
     box-sizing: border-box;
 }
 
-@font-face {
-    font-family: "Roboto Regular";
-    src: url("Roboto-Regular.ttf") format("truetype");
-}
-
 body {
-    font-family: "Roboto Regular", Helvetica, Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     text-align: center;
     background-color: var(--fond);
     color: var(--texte) ;
