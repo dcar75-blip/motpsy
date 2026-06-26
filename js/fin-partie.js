@@ -75,7 +75,7 @@ function afficherLienRejouer() {
         return d && d > DEBUT_OFFICIEL && d < cleJour;
     });
 
-    if (pool.length < 54) return;
+    if (pool.length < 1) return;
 
     const cleLs = `motpsy_rejoue_ancien_${cleJour}`;
     let dateChoisie = localStorage.getItem(cleLs);
