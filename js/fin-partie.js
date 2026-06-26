@@ -92,6 +92,7 @@ function afficherLienRejouer() {
         localStorage.setItem(cleLs, dateChoisie);
     }
 
+    console.log('DEBUG pool:', pool.length, 'cleJour:', cleJour, 'dateChoisie:', dateChoisie);
     const grille = document.querySelector('#zone-liens .liens-grid');
     if (!grille) return;
 
