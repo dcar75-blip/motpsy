@@ -1,7 +1,10 @@
 function terminer(victoire) {
     if (typeof window.varianteOnFinMot === "function") {
         const prisEnCharge = window.varianteOnFinMot(victoire);
-        if (prisEnCharge) return;
+        if (prisEnCharge) {
+            afficherLienRejouer();
+            return;
+        }
     }
     partieTerminee = true;
     if (notifTimeout) clearTimeout(notifTimeout);
@@ -60,7 +63,7 @@ function terminer(victoire) {
     afficherLienRejouer();
 }
 function afficherLienRejouer() {
-    const DEBUT_OFFICIEL = "2026-09-01";
+    const DEBUT_OFFICIEL = "2026-09-12";
     let cleJour = obtenirCleJourMarseille();
     const dateForcee = new URLSearchParams(location.search).get("date");
     if (dateForcee && /^\d{4}-\d{2}-\d{2}$/.test(dateForcee)) {
