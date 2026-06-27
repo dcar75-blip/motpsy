@@ -380,7 +380,7 @@ hr {
 }
 
 /* --- les panels --- */
-#zone-messagefinal, #zone-jour, #zone-hier, #regles {
+#zone-messagefinal, #zone-jour, #zone-exemple, #zone-rebonds, #zone-hier, #regles {
     max-width: 500px;
     margin: 20px auto;
     padding: 0 15px;
@@ -406,6 +406,6 @@ h3{
     font-size: 1.2rem;
 }
 
-#zone-messagefinal a, #zone-jour a, #zone-hier a {
+#zone-messagefinal a, #zone-jour a, #zone-exemple a, #zone-rebonds a, #zone-hier a {
     color: var(--miseenavant3);
 }
