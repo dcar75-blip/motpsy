@@ -23,6 +23,14 @@ function terminer(victoire) {
         : `Le mot était ${motSolution}`;
     
     const texteAExporter = genererGrillePartage(victoire);
+    const exemple = infosMots.aujourdhui[7] || "";
+    const rebonds = infosMots.aujourdhui[8] || "";
+    const blocExemple = exemple
+        ? `<hr><div id="zone-exemple"><h3>Exemple</h3>${MarkdownVersHtml(exemple)}</div>`
+        : "";
+    const blocRebonds = rebonds
+        ? `<hr><div id="zone-rebonds"><h3>Rebonds</h3>${rebonds.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>')}</div>`
+        : "";
     const partageActif =
         (typeof window.variantePartagerActif === "function")
             ? window.variantePartagerActif()
@@ -52,9 +60,11 @@ function terminer(victoire) {
         </div>
         <hr>
         <div id="zone-jour">
-            <h3>Définition</h3>
+            <h3>Dans les livres psy</h3>
             <b>MotPsy n° ${numeroMotpsy} :</b> <br /> ${MarkdownVersHtml(infosMots.aujourdhui[1])}
         </div>
+        ${blocExemple}
+        ${blocRebonds}
         <hr>
         <div id="zone-image-def"></div>
     `;

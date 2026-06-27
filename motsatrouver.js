@@ -1,5 +1,5 @@
 // Liste des mots Motpsy
-// Format : [mot, définition, catégorie, photo, cacher1ereLettre, date, indice]
+// Format : [mot, définition, catégorie, photo, cacher1ereLettre, date, indice, exemple, rebonds]
 // Catégories : Classique, VO, VIP, Lacan  (le tiret est détecté automatiquement)
 // La date (YYYY-MM-DD) détermine le jour de diffusion. Fallback aléatoire si aucune date ne correspond.
 // L'indice (si présent) fait apparaître le bouton 💡 ; vide = pas de bouton.
