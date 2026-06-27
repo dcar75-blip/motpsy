@@ -28,8 +28,24 @@ function terminer(victoire) {
     const blocExemple = exemple
         ? `<hr><div id="zone-exemple"><h3>Exemple</h3>${MarkdownVersHtml(exemple)}</div>`
         : "";
+    function extraireIdYoutube(url) {
+        const m = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+        return m ? m[1] : null;
+    }
+    function rebondsVersHtml(texte) {
+        return texte.replace(/(https?:\/\/[^\s<]+)/g, url => {
+            const id = extraireIdYoutube(url);
+            if (id) {
+                return `<a href="${url}" target="_blank" rel="noopener">`
+                     + `<img src="https://img.youtube.com/vi/${id}/hqdefault.jpg" `
+                     + `alt="Aperçu YouTube" style="max-width:100%;border-radius:6px;display:block;margin-bottom:6px;">`
+                     + `</a><a href="${url}" target="_blank" rel="noopener">${url}</a>`;
+            }
+            return `<a href="${url}" target="_blank" rel="noopener">${url}</a>`;
+        });
+    }
     const blocRebonds = rebonds
-        ? `<hr><div id="zone-rebonds"><h3>Rebonds</h3>${rebonds.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>')}</div>`
+        ? `<hr><div id="zone-rebonds"><h3>Rebonds</h3>${rebondsVersHtml(rebonds)}</div>`
         : "";
     const partageActif =
         (typeof window.variantePartagerActif === "function")
