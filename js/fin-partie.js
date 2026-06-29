@@ -77,7 +77,7 @@ function terminer(victoire) {
         <hr>
         <div id="zone-jour">
             <h3>Dans les livres psy</h3>
-            <b>MotPsy n° ${numeroMotpsy} :</b> <br /> ${MarkdownVersHtml(infosMots.aujourdhui[1])}
+            <b>MotPsy n° ${numeroMotpsy} : ${infosMots.aujourdhui[0]}</b> <br /> ${MarkdownVersHtml(infosMots.aujourdhui[1])}
         </div>
         ${blocExemple}
         ${blocRebonds}
