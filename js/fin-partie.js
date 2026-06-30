@@ -37,9 +37,34 @@ function terminer(victoire) {
             const id = extraireIdYoutube(url);
             if (id) {
                 return `<a href="${url}" target="_blank" rel="noopener">`
-                     + `<img src="https://img.youtube.com/vi/${id}/hqdefault.jpg" `
-                     + `alt="Aperçu YouTube" style="max-width:100%;border-radius:6px;display:block;margin-bottom:6px;">`
-                     + `</a><a href="${url}" target="_blank" rel="noopener">${url}</a>`;
+                    + `<img src="https://img.youtube.com/vi/${id}/hqdefault.jpg" `
+                    + `alt="Aperçu YouTube" style="max-width:100%;border-radius:6px;display:block;margin-bottom:6px;">`
+                    + `</a><a href="${url}" target="_blank" rel="noopener">${url}</a>`;
+            }
+            const estPodcast = /radiofrance\.fr|slate\.fr|soundcloud\.com|spotify\.com|podcast/i.test(url);
+            if (estPodcast) {
+                const conteneurId = 'podcast-' + Math.random().toString(36).slice(2,8);
+                setTimeout(() => {
+                    const el = document.getElementById(conteneurId);
+                    if (!el) return;
+                    fetch(`/og-proxy.php?url=${encodeURIComponent(url)}`)
+                        .then(r => r.json())
+                        .then(data => {
+                            if (data.image) {
+                                el.innerHTML = `<a href="${url}" target="_blank" rel="noopener">`
+                                    + `<img src="${data.image}" alt="Aperçu podcast" `
+                                    + `style="max-width:100%;border-radius:6px;display:block;margin-bottom:6px;">`
+                                    + `</a><a href="${url}" target="_blank" rel="noopener">${url}</a>`;
+                            } else {
+                                el.innerHTML = `🎧 <a href="${url}" target="_blank" rel="noopener" style="color:#1368B0;font-weight:600;">${url}</a>`;
+                            }
+                        })
+                        .catch(() => {
+                            const el2 = document.getElementById(conteneurId);
+                            if (el2) el2.innerHTML = `🎧 <a href="${url}" target="_blank" rel="noopener">${url}</a>`;
+                        });
+                }, 0);
+                return `<div id="${conteneurId}" style="background:#f0f7ff;border:1px solid #50BBF6;border-radius:8px;padding:10px 14px;margin:4px 0;">🎧 Chargement…</div>`;
             }
             return `<a href="${url}" target="_blank" rel="noopener">${url}</a>`;
         });
@@ -120,6 +145,7 @@ function afficherLienRejouer() {
 
     const grille = document.querySelector('#zone-liens .liens-grid');
     if (!grille) return;
+
 
     const a = document.createElement('a');
     a.className = 'lien-carte';

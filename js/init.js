@@ -25,6 +25,8 @@ window.onload = () => {
         return;
     }
 
+    afficherBandeauVacances();
+
     // Photo Lacan : visible uniquement les jours de catégorie "lacan"
     if (infosMots.aujourdhui[2] && infosMots.aujourdhui[2].trim().toLowerCase() === "lacan") {
         const photoLacan = document.getElementById("photo-lacan");
@@ -129,6 +131,32 @@ function messageCaracteresSpeciaux(mot) {
 
     return messages.join("<br>");
 }
+// --- Périodes de vacances scolaires (hors été car jeu fermé avant le 1er sept) ---
+function estEnVacances(date) {
+  const d = date || new Date();
+  const t = d.getTime();
+  const v = [
+    ['2026-10-17', '2026-11-02'],
+    ['2026-12-19', '2027-01-04'],
+    ['2027-02-06', '2027-02-22'],
+    ['2027-04-10', '2027-04-26'],
+  ];
+  return v.some(([debut, fin]) =>
+    t >= new Date(debut).getTime() && t <= new Date(fin + 'T23:59:59').getTime()
+  );
+}
+
+// --- Bandeau vacances ---
+function afficherBandeauVacances() {
+  if (!estEnVacances()) return;
+  const div = document.createElement('div');
+  div.id = 'bandeau-vacances';
+  div.style.cssText = 'background:#e8f4fd;border:1px solid #50BBF6;border-radius:8px;padding:12px 16px;margin:0 auto 16px auto;max-width:500px;text-align:center;font-size:0.95rem;line-height:1.5;';
+  div.innerHTML = 'MotPsy est en supervision pendant les vacances 😎<br>En attendant la rentrée avec pléthore de nouveaux mots, rejoue chaque jour une ancienne partie et partage-la sur tes réseaux !';
+  const header = document.querySelector('header');
+  if (header) header.insertAdjacentElement('afterend', div);
+}
+
 function afficherEcranPreLancement() {
     const LANCEMENT = new Date("2026-09-01T00:00:00");
     const joursRestants = Math.max(0, Math.ceil((LANCEMENT - new Date()) / 86400000));
