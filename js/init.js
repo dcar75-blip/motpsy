@@ -148,7 +148,11 @@ function estEnVacances(date) {
 
 // --- Bandeau vacances ---
 function afficherBandeauVacances() {
-  if (!estEnVacances()) return;
+  const dateForcee = new URLSearchParams(location.search).get("date");
+  const d = (dateForcee && /^\d{4}-\d{2}-\d{2}$/.test(dateForcee))
+    ? new Date(dateForcee + 'T12:00:00')
+    : null;
+  if (!estEnVacances(d)) return;
   const div = document.createElement('div');
   div.id = 'bandeau-vacances';
   div.style.cssText = 'background:#e8f4fd;border:1px solid #50BBF6;border-radius:8px;padding:12px 16px;margin:0 auto 16px auto;max-width:500px;text-align:center;font-size:0.95rem;line-height:1.5;';
