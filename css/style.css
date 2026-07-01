@@ -409,3 +409,9 @@ h3{
 #zone-messagefinal a, #zone-jour a, #zone-exemple a, #zone-rebonds a, #zone-hier a {
     color: var(--miseenavant3);
 }
+
+@media (max-width: 480px) {
+  :root {
+    --cell-max: 60px;
+  }
+}
