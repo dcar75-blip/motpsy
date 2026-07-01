@@ -72,11 +72,11 @@ function afficherHier() {
         // Jour du lancement : il n'y a pas de mot d'hier
         conteneurHier.style.display = "";
         conteneurHier.innerHTML =
-            `<h3>Le motpsy d'hier</h3><p>🎉 Premier jour de MotPsy : pas encore de mot d'hier&nbsp;!</p>`;
+            `<h3>Le MotPsy d'hier</h3><p>🎉 Premier jour de MotPsy : pas encore de mot d'hier&nbsp;!</p>`;
     } else if (infosMots.hier && infosMots.hier[0]) {
         conteneurHier.style.display = "";
         conteneurHier.innerHTML =
-            `<h3>Le motpsy d'hier</h3><p><b>${infosMots.hier[0]}</b> <br/> ${MarkdownVersHtml(infosMots.hier[1])}</p>`;
+            `<h3>Le MotPsy d'hier</h3><p><b>${infosMots.hier[0]}</b> <br/> ${MarkdownVersHtml(infosMots.hier[1])}</p>`;
     } else {
         conteneurHier.style.display = "none";
     }
