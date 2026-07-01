@@ -77,7 +77,7 @@ function terminer(victoire) {
             ? window.variantePartagerActif()
             : true;
     const blocPartage = partageActif
-    ? `<p class="cliquable-partage" onclick='copierPartage(${JSON.stringify(texteAExporter)})'>
+    ? `<p class="cliquable-partage" onclick='copierPartage(${JSON.stringify(texteAExporter)}, this)'>
             Cliquer pour copier et partager 🟥🟨🟦
         </p>`
     : "";
@@ -193,8 +193,11 @@ function genererGrillePartage(victoire) {
     texte += "https://motpsy.fr\n";
     return texte;
 }
-function copierPartage(texte) {
+function copierPartage(texte, element) {
     navigator.clipboard.writeText(texte).then(() => {
-        if (!partieTerminee) notifier("Score copié dans le presse-papier !");
+        if (element) {
+            element.innerHTML = "Score copié dans le presse-papier";
+            element.style.cursor = "default";
+        }
     });
 }
