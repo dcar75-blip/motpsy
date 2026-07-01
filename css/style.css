@@ -415,3 +415,15 @@ h3{
     --cell-max: 60px;
   }
 }
+
+@media (max-height: 800px) {
+  :root {
+    --cell-max: 65px;
+  }
+}
+
+@media (max-width: 480px) and (max-height: 800px) {
+  :root {
+    --cell-max: 60px;
+  }
+}
