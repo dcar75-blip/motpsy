@@ -197,7 +197,9 @@ function copierPartage(texte, element) {
     navigator.clipboard.writeText(texte).then(() => {
         if (element) {
             element.innerHTML = "Score copié dans le presse-papier";
+            element.classList.remove("cliquable-partage");
             element.style.cursor = "default";
+            element.onclick = null;
         }
     });
 }
