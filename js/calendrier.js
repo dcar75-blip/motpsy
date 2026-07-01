@@ -37,7 +37,9 @@ function obtenirInfosMots() {
     if (dateForcee && /^\d{4}-\d{2}-\d{2}$/.test(dateForcee)) {
         cleAujourdhui = dateForcee;
     }
-    const cleHier = obtenirCleJourMarseille(new Date(Date.now() - 86400000));
+    const [ay, am, aj] = cleAujourdhui.split('-').map(Number);
+    const dateAujourdhui = new Date(Date.UTC(ay, am - 1, aj));
+    const cleHier = obtenirCleJourMarseille(new Date(dateAujourdhui.getTime() - 86400000));
     // Indexation des mots par date
     const parDate = {};
     for (const entree of LISTE_MOTS_A_TROUVER) {
