@@ -409,3 +409,21 @@ h3{
 #zone-messagefinal a, #zone-jour a, #zone-exemple a, #zone-rebonds a, #zone-hier a {
     color: var(--miseenavant3);
 }
+
+@media (max-width: 480px) {
+  header img.logo {
+    height: 120px;
+    margin: -20px auto 0px auto;
+  }
+  header h1 {
+    font-size: 1.6rem;
+    margin: 4px 0 2px 0;
+  }
+  header p {
+    font-size: 0.85rem;
+    margin: 0 0 8px 0;
+  }
+  hr {
+    margin: 8px auto;
+  }
+}
