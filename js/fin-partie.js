@@ -16,7 +16,11 @@ function terminer(victoire) {
     const zoneMsg = document.getElementById('zone-message');
     const zoneFin = document.getElementById('zone-fin');
     const numeroMotpsy = infosMots.index + 1;
-    
+
+    const attribution = contributeurs[motSolution]
+        ? `<br /><span style="font-size:0.85em;font-style:italic;color:#888;">Mot proposé par ${contributeurs[motSolution]}</span>`
+        : '';
+
     function titreVictoire(coups) {
         return messageVictoireSpecial(coups - 1) || "Bien joué !";
     }
@@ -106,7 +110,7 @@ function terminer(victoire) {
         <hr>
         <div id="zone-jour">
             <h3>Dans les livres psy</h3>
-            <b>MotPsy n° ${numeroMotpsy} : ${infosMots.aujourdhui[0]}</b> <br /> ${MarkdownVersHtml(infosMots.aujourdhui[1])}
+            <b>MotPsy n° ${numeroMotpsy} : ${infosMots.aujourdhui[0]}</b> <br /> ${MarkdownVersHtml(infosMots.aujourdhui[1])}${attribution}
         </div>
         ${blocExemple}
         ${blocRebonds}
