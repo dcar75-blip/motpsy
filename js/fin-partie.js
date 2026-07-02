@@ -1,3 +1,8 @@
+function messageVictoireSpecial(ligne) {
+    if (ligne === 0) return "Attention Insight ! MotPsy trouvé en un coup, les voies du Sigmund sont avec toi !";
+    if (ligne === CONFIG.maxEssais - 1) return "Un MotPsy en 6 coups c'est une résistance vaincue. Bravo !";
+    return null;
+}
 function terminer(victoire) {
     if (typeof window.varianteOnFinMot === "function") {
         const prisEnCharge = window.varianteOnFinMot(victoire);
@@ -13,13 +18,12 @@ function terminer(victoire) {
     const numeroMotpsy = infosMots.index + 1;
     
     function titreVictoire(coups) {
-        if (coups === 1) return "Bravo ! Les voies du Sigmund sont avec toi !";
-        if (coups === 6) return "Résistance vaincue à la dernière minute. Bien joué !";
-        return "Bien joué !";
+        return messageVictoireSpecial(coups - 1) || "Bien joué !";
     }
     let titre = victoire ? titreVictoire(ligneActuelle + 1) : `${CONFIG.textePerdu}`;
+    const casSpecialSousTitre = victoire && messageVictoireSpecial(ligneActuelle) !== null;
     let sousTitre1 = victoire
-        ? `Trouvé en ${ligneActuelle + 1} coup${(ligneActuelle + 1) > 1 ? "s" : ""}`
+        ? (casSpecialSousTitre ? "" : `Trouvé en ${ligneActuelle + 1} coup${(ligneActuelle + 1) > 1 ? "s" : ""}`)
         : `Le mot était ${motSolution}`;
     
     const texteAExporter = genererGrillePartage(victoire);
@@ -175,9 +179,13 @@ function afficherImageDuMot() {
 }
 function genererGrillePartage(victoire) {
     const numeroMotpsy = infosMots.index + 1;
-    let texte = `#MOTPSY n°${numeroMotpsy} - `; 
-    texte += victoire ? `${ligneActuelle + 1}/${CONFIG.maxEssais} \n`:`-/${CONFIG.maxEssais} \n`; 
-    
+    let texte = `#MOTPSY n°${numeroMotpsy} - `;
+    texte += victoire ? `${ligneActuelle + 1}/${CONFIG.maxEssais} \n`:`-/${CONFIG.maxEssais} \n`;
+    if (victoire) {
+        const special = messageVictoireSpecial(ligneActuelle);
+        if (special) texte += special + "\n";
+    }
+
     for (let i = 0; i <= ligneActuelle; i++) {
         const cases = document.querySelectorAll(`#ligne-${i} .case`);
         let ligneEmoji = "";
