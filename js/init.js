@@ -117,7 +117,7 @@ function messageCaracteresSpeciaux(mot) {
             messages.push('<b style="color:#e7002a;">On cherche aujourd\'hui une Very Important Personnalité de la psychanalyse... ou un cas clinique célèbre !</b>');
             break;
         case "vo":
-            messages.push('<b style="color:#e7002a;">Achtung ! On cherche aujourd\'hui un mot allemand. Tu peux saisir des mots en allemand ou en français indifféremment.</b>');
+            messages.push('<b style="color:#e7002a;">Achtung ! Le mot du jour est en VO — dans sa langue d\'origine (allemand, anglais, latin…). Comme toujours, tu peux saisir des mots en français, anglais ou allemand.</b>');
             break;
         case "lacan":
             messages.push('<b style="color:#e7002a;">🛋️ Le Jour de Lacan ! On cherche aujourd\'hui une notion du vocabulaire lacanien.</b>');
