@@ -6,6 +6,9 @@ function offrirPremiereLettre() {
     if (cacherPremiere) return false;
     return motSolution.length >= CONFIG.seuilOffrePremiere;
 }
+function offrirSondeCourte() {
+    return motSolution.length >= CONFIG.seuilSondeLongue;
+}
 const nbLettres = motSolution.length;
 document.documentElement.style.setProperty('--cols', nbLettres);
 let essaiActuel = ""; 
@@ -127,6 +130,11 @@ function messageCaracteresSpeciaux(mot) {
     // Attribut transversal : tiret
     if (contientTiret) {
         messages.push('<b style="color:#e7002a;">⚠️ Aujourd\'hui, MotPsy est un mot composé ou une expression de 2 mots. Dans les 2 cas, utilisez le tiret du clavier pour séparer les 2 parties (ex : PORTE-MANTEAU).</b>');
+    }
+
+    // Attribut transversal : mot long (sonde courte autorisée)
+    if (offrirSondeCourte()) {
+        messages.push('<b style="color:#e7002a;">Ce mot est long ! Tu peux taper des mots plus courts pour repérer des lettres — elles compteront même si elles sont vers la fin du mot. Valide comme d\'habitude avec la touche Entrée du clavier.</b>');
     }
 
     return messages.join("<br>");

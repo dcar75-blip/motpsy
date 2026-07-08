@@ -1,6 +1,7 @@
 const CONFIG = {
     maxEssais: 6,
     seuilOffrePremiere: 6,
+    seuilSondeLongue: 14,
     dureeMessage: 4000,
     dureeMessageAide: 20000,
     dureeMessageInitial: 300000,

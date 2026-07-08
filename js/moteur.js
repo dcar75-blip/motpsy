@@ -5,11 +5,16 @@ async function valider() {
   try {
     const motSaisi = reconstituerMotFinal();
 
+    const modeSonde = offrirSondeCourte();
     if (motSaisi.length < motSolution.length) {
-      notifier(CONFIG.texteTropCourt);
-      essaiActuel = "";
-      majAffichage();
-      return;
+      if (!modeSonde || motSaisi.length === 0) {
+        notifier(CONFIG.texteTropCourt);
+        essaiActuel = "";
+        majAffichage();
+        return;
+      }
+      // mode sonde actif + saisie non vide : on continue vers la vérif dico
+      // (ligne 15 et suivantes, INCHANGÉES)
     }
 
     if (motSaisi !== motSolution && !DICTIONNAIRE.includes(motSaisi)) {
@@ -62,8 +67,8 @@ async function colorerLigneAnimee(saisie) {
     let solArr = motSolution.split('');
     let result = Array(motSolution.length).fill('absent');
 
-    // 1. Calcul des couleurs 
-    for (let i = 0; i < motSolution.length; i++) {
+    // 1. Calcul des couleurs
+    for (let i = 0; i < Math.min(saisie.length, motSolution.length); i++) {
         if (saisie[i] === motSolution[i]) {
             result[i] = 'correct';
             solArr[i] = null;
@@ -75,7 +80,7 @@ async function colorerLigneAnimee(saisie) {
             lettresAide[i] = motSolution[i];
         }
     }
-    for (let i = 0; i < motSolution.length; i++) {
+    for (let i = 0; i < saisie.length; i++) {
         if (result[i] !== 'correct' && solArr.includes(saisie[i])) {
             result[i] = 'present';
             solArr[solArr.indexOf(saisie[i])] = null;
@@ -83,7 +88,7 @@ async function colorerLigneAnimee(saisie) {
     }
 
     // 2. Révélation lettre à lettre avec un petit délai
-    for (let i = 0; i < motSolution.length; i++) {
+    for (let i = 0; i < saisie.length; i++) {
         cases[i].className = `case ${result[i]}`;
 
         mettreAJourTouche(saisie[i], result[i]);
