@@ -134,7 +134,7 @@ function messageCaracteresSpeciaux(mot) {
 
     // Attribut transversal : mot long (sonde courte autorisée)
     if (offrirSondeCourte()) {
-        messages.push('<b style="color:#e7002a;">Ce mot est long ! Tu peux taper des mots plus courts pour repérer des lettres — elles compteront même si elles sont vers la fin du mot. Valide comme d\'habitude avec la touche Entrée du clavier.</b>');
+        messages.push('<b style="color:#e7002a;">Ce mot est long ! Tu peux taper des mots plus courts pour repérer des lettres — elles compteront même si elles sont vers la fin du mot à trouver aujourd\'hui. Valide comme d\'habitude avec la touche Entrée du clavier.</b>');
     }
 
     return messages.join("<br>");
@@ -143,15 +143,18 @@ function messageCaracteresSpeciaux(mot) {
 function estEnVacances(date) {
   const d = date || new Date();
   const t = d.getTime();
-  const v = [
-    ['2026-10-17', '2026-11-02'],
-    ['2026-12-19', '2027-01-04'],
-    ['2027-02-06', '2027-02-22'],
-    ['2027-04-10', '2027-04-26'],
+  // La semaine off commence le 1er lundi après le début des congés et dure 7 jours, lundi → dimanche inclus.
+  const lundisOff = [
+    '2026-10-19',
+    '2026-12-21',
+    '2027-02-08',
+    '2027-04-05',
   ];
-  return v.some(([debut, fin]) =>
-    t >= new Date(debut).getTime() && t <= new Date(fin + 'T23:59:59').getTime()
-  );
+  const SEPT_JOURS = 7 * 86400000;
+  return lundisOff.some(debut => {
+    const t0 = new Date(debut).getTime();
+    return t >= t0 && t < t0 + SEPT_JOURS;
+  });
 }
 
 // --- Bandeau vacances ---

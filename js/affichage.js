@@ -20,6 +20,7 @@ function majAffichage() {
 const offrePremiere = offrirPremiereLettre();
     let curseurSaisie = 0;
     const aTapePremiere = offrePremiere && essaiActuel[0] === motSolution[0];
+    const dernierCoup = ligneActuelle === CONFIG.maxEssais - 1;
 
     for (let i = 0; i < motSolution.length; i++) {
 
@@ -30,14 +31,15 @@ const offrePremiere = offrirPremiereLettre();
             if (!aTapePremiere) continue;
         }
 
-        // Affichage des lettres d'aide uniquement si aucune saisie
+        // Affichage des lettres d'aide (+ filet du 6e coup, mots longs) uniquement si aucune saisie
+        const filetActif = dernierCoup && offrirSondeCourte() && i < 3;
         if (
             !(i === 0 && offrePremiere) &&
             essaiActuel.length === 0 &&
-            lettresAide[i]
+            (lettresAide[i] || filetActif)
         ) {
-            cases[i].textContent = lettresAide[i];
-            cases[i].className = "case";
+            cases[i].textContent = lettresAide[i] || motSolution[i];
+            cases[i].className = filetActif ? "case correct" : "case";
             continue; // IMPORTANT : empêche l'effacement juste après
         }
 
