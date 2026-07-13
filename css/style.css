@@ -145,6 +145,28 @@ hr {
 	display: none;
 }
 
+.bloc-rappels {
+    hyphens: auto;
+}
+
+.bloc-rappels-titre {
+    font-variant: small-caps;
+    text-align: center;
+    color: var(--sous-titre-motchus);
+    font-weight: bold;
+    margin: 0 0 8px;
+}
+
+.bloc-rappels p:not(.bloc-rappels-titre) {
+    color: var(--miseenavant);
+    text-align: justify;
+    margin: 0 0 12px;
+}
+
+.bloc-rappels p:last-child {
+    margin-bottom: 0;
+}
+
 #grille-jeu{
     width: min(100%, var(--grid-max-width));
     margin: 10px auto;

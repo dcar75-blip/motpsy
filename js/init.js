@@ -117,27 +117,30 @@ function messageCaracteresSpeciaux(mot) {
     // Message lié à la catégorie
     switch (categorie) {
         case "vip":
-            messages.push('<b style="color:#e7002a;">On cherche aujourd\'hui une Very Important Personnalité de la psychanalyse... ou un cas clinique célèbre !</b>');
+            messages.push('🌟 On cherche aujourd\'hui une Very Important Personnalité de la psychanalyse... ou un cas clinique célèbre !');
             break;
         case "vo":
-            messages.push('<b style="color:#e7002a;">Achtung ! Le mot du jour est en VO — dans sa langue d\'origine (allemand, anglais, latin…). Comme toujours, tu peux saisir des mots en français, anglais ou allemand.</b>');
+            messages.push('🌍 Achtung ! Le mot du jour est en VO — dans sa langue d\'origine (allemand, anglais, latin…). Comme toujours, tu peux saisir des mots en français, anglais ou allemand.');
             break;
         case "lacan":
-            messages.push('<b style="color:#e7002a;">🛋️ Le Jour de Lacan ! On cherche aujourd\'hui une notion du vocabulaire lacanien.</b>');
+            messages.push('🛋️ Le Jour de Lacan ! On cherche aujourd\'hui une notion du vocabulaire lacanien.');
             break;
     }
 
     // Attribut transversal : tiret
     if (contientTiret) {
-        messages.push('<b style="color:#e7002a;">⚠️ Aujourd\'hui, MotPsy est un mot composé ou une expression de 2 mots. Dans les 2 cas, utilisez le tiret du clavier pour séparer les 2 parties (ex : PORTE-MANTEAU).</b>');
+        messages.push('➖ Aujourd\'hui, MotPsy est un mot composé ou une expression de 2 mots. Dans les 2 cas, utilisez le tiret du clavier pour séparer les 2 parties (ex : PORTE-MANTEAU).');
     }
 
     // Attribut transversal : mot long (sonde courte autorisée)
     if (offrirSondeCourte()) {
-        messages.push('<b style="color:#e7002a;">Ce mot est long ! Tu peux taper des mots plus courts pour repérer des lettres — elles compteront même si elles sont vers la fin du mot à trouver aujourd\'hui. Valide comme d\'habitude avec la touche Entrée du clavier.</b>');
+        messages.push('📏 Ce mot est long ! Tu peux taper des mots plus courts pour repérer des lettres — elles compteront même si elles sont vers la fin du mot à trouver aujourd\'hui. Valide comme d\'habitude avec la touche Entrée du clavier.');
     }
 
-    return messages.join("<br><br>");
+    if (messages.length === 0) return "";
+
+    const paragraphes = messages.map(m => `<p>${m}</p>`).join("");
+    return `<div class="bloc-rappels" lang="fr"><p class="bloc-rappels-titre">Rappels pour jouer aujourd'hui</p>${paragraphes}</div>`;
 }
 // --- Périodes de vacances scolaires (hors été car jeu fermé avant le 1er sept) ---
 function estEnVacances(date) {
