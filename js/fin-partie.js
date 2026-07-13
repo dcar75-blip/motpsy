@@ -1,6 +1,14 @@
-function messageVictoireSpecial(ligne) {
-    if (ligne === 0) return "Attention Insight ! MotPsy trouvé en un coup, les voies du Sigmund sont avec toi !";
-    if (ligne === CONFIG.maxEssais - 1) return "Un MotPsy en 6 coups c'est une résistance vaincue. Bravo !";
+function messageVictoireSpecial(ligne, pourPartage = false) {
+    if (ligne === 0) {
+        return pourPartage
+            ? "Attention Insight ! MotPsy trouvé en un coup, les voies du Sigmund sont avec moi !"
+            : "Attention Insight ! MotPsy trouvé en un coup, les voies du Sigmund sont avec toi !";
+    }
+    if (ligne === CONFIG.maxEssais - 1) {
+        return pourPartage
+            ? "Un MotPsy en 6 coups, c'est une résistance vaincue pour moi aujourd'hui !"
+            : "Un MotPsy en 6 coups c'est une résistance vaincue. Bravo !";
+    }
     return null;
 }
 function terminer(victoire) {
@@ -85,7 +93,7 @@ function terminer(victoire) {
             ? window.variantePartagerActif()
             : true;
     const blocPartage = partageActif
-    ? `<p class="cliquable-partage" onclick='copierPartage(${JSON.stringify(texteAExporter)}, this)'>
+    ? `<p class="cliquable-partage" id="lien-partage">
             Cliquer pour copier et partager 🟥🟨🟦
         </p>`
     : "";
@@ -96,6 +104,12 @@ function terminer(victoire) {
         ${blocPartage}
     </div>
     `;
+    if (partageActif) {
+        const lienPartage = document.getElementById('lien-partage');
+        if (lienPartage) {
+            lienPartage.addEventListener('click', () => copierPartage(texteAExporter, lienPartage));
+        }
+    }
     zoneFin.innerHTML = `
         <div id="zone-messagefinal"></div>        
         <div id="zone-liens">
@@ -195,7 +209,7 @@ function genererGrillePartage(victoire) {
     let texte = `#MOTPSY n°${numeroMotpsy} - `;
     texte += victoire ? `${ligneActuelle + 1}/${CONFIG.maxEssais} \n`:`-/${CONFIG.maxEssais} \n`;
     if (victoire) {
-        const special = messageVictoireSpecial(ligneActuelle);
+        const special = messageVictoireSpecial(ligneActuelle, true);
         if (special) texte += special + "\n";
     }
 

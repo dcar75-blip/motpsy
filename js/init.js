@@ -129,7 +129,7 @@ function messageCaracteresSpeciaux(mot) {
 
     // Attribut transversal : tiret
     if (contientTiret) {
-        messages.push('➖ Aujourd\'hui, MotPsy est un mot composé ou une expression de 2 mots. Dans les 2 cas, utilisez le tiret du clavier pour séparer les 2 parties (ex : PORTE-MANTEAU).');
+        messages.push('➖ Aujourd\'hui, MotPsy est un mot composé ou une expression de 2 mots. Dans les 2 cas, utilise le tiret du clavier pour séparer les 2 parties (ex : PORTE-MANTEAU).');
     }
 
     // Attribut transversal : mot long (sonde courte autorisée)
