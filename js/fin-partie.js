@@ -6,7 +6,7 @@ function messageVictoireSpecial(ligne, pourPartage = false) {
     }
     if (ligne === CONFIG.maxEssais - 1) {
         return pourPartage
-            ? "Un MotPsy en 6 coups, c'est une résistance vaincue pour moi aujourd'hui !"
+            ? "Un MotPsy en 6 coups : résistance vaincue pour moi aujourd'hui !"
             : "Un MotPsy en 6 coups c'est une résistance vaincue. Bravo !";
     }
     return null;
