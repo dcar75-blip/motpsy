@@ -137,7 +137,7 @@ function messageCaracteresSpeciaux(mot) {
         messages.push('<b style="color:#e7002a;">Ce mot est long ! Tu peux taper des mots plus courts pour repérer des lettres — elles compteront même si elles sont vers la fin du mot à trouver aujourd\'hui. Valide comme d\'habitude avec la touche Entrée du clavier.</b>');
     }
 
-    return messages.join("<br>");
+    return messages.join("<br><br>");
 }
 // --- Périodes de vacances scolaires (hors été car jeu fermé avant le 1er sept) ---
 function estEnVacances(date) {

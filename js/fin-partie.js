@@ -121,6 +121,12 @@ function terminer(victoire) {
     afficherMessageFinal();
     afficherLienRejouer();
 }
+// Graine fixe du parcours MotPsy54 : à rang égal, une date garde toujours
+// la même place relative dans l'ordre mélangé, même quand le pool grossit
+// (chaque nouvelle date passée s'insère selon son propre rang, sans
+// rebrasser les dates déjà présentes).
+const SEED_PARCOURS_54 = "motpsy54-v1";
+
 function afficherLienRejouer() {
     const DEBUT_OFFICIEL = "2026-09-12";
     let cleJour = obtenirCleJourMarseille();
@@ -134,22 +140,25 @@ function afficherLienRejouer() {
         return d && d > DEBUT_OFFICIEL && d < cleJour;
     });
 
+    // Garde-fou existant : avant le 12 septembre (ou tant qu'aucun mot n'est
+    // encore passé), le pool est vide. On n'affiche simplement pas le lien.
     if (pool.length < 1) return;
 
-    const cleLs = `motpsy_rejoue_ancien_${cleJour}`;
-    let dateChoisie = localStorage.getItem(cleLs);
+    // Parcours sans répétition : ordre mélangé mais fixe (rang intrinsèque
+    // par date), puis on avance d'un cran par jour écoulé depuis le
+    // lancement — chaque mot repassé n'est revu qu'une fois le pool
+    // entièrement parcouru.
+    const dispo = pool.slice().sort((a, b) => {
+        const rangA = hashChaine(SEED_PARCOURS_54 + normaliserDate(a[5]));
+        const rangB = hashChaine(SEED_PARCOURS_54 + normaliserDate(b[5]));
+        return rangA - rangB;
+    });
 
-    if (!dateChoisie) {
-        for (let i = 0; i < localStorage.length; i++) {
-            const k = localStorage.key(i);
-            if (k && k.startsWith("motpsy_rejoue_ancien_") && k !== cleLs) {
-                localStorage.removeItem(k);
-                i--;
-            }
-        }
-        dateChoisie = normaliserDate(pool[hashChaine(cleJour) % pool.length][5]);
-        localStorage.setItem(cleLs, dateChoisie);
-    }
+    const [dy, dm, dd] = DEBUT_OFFICIEL.split('-').map(Number);
+    const [cy, cm, cd] = cleJour.split('-').map(Number);
+    const diffJours = Math.round((Date.UTC(cy, cm - 1, cd) - Date.UTC(dy, dm - 1, dd)) / 86400000);
+
+    const dateChoisie = normaliserDate(dispo[diffJours % dispo.length][5]);
 
     const grille = document.querySelector('#zone-liens .liens-grid');
     if (!grille) return;
