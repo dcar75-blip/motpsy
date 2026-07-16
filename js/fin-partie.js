@@ -41,7 +41,7 @@ function terminer(victoire) {
     const texteAExporter = genererGrillePartage(victoire);
     const exemple = infosMots.aujourdhui[7] || "";
     const rebonds = infosMots.aujourdhui[8] || "";
-    const blocExemple = exemple
+    const blocExemple = (exemple && exemple.trim())
         ? `<hr><div id="zone-exemple"><h3>Exemple</h3>${MarkdownVersHtml(exemple)}</div>`
         : "";
     function extraireIdYoutube(url) {
@@ -85,7 +85,7 @@ function terminer(victoire) {
             return `<a href="${url}" target="_blank" rel="noopener">${url}</a>`;
         });
     }
-    const blocRebonds = rebonds
+    const blocRebonds = (rebonds && rebonds.trim())
         ? `<hr><div id="zone-rebonds"><h3>Rebonds</h3>${rebondsVersHtml(rebonds)}</div>`
         : "";
     const partageActif =
