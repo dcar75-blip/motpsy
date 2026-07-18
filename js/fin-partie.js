@@ -42,7 +42,7 @@ function terminer(victoire) {
     const exemple = infosMots.aujourdhui[7] || "";
     const rebonds = infosMots.aujourdhui[8] || "";
     const blocExemple = (exemple && exemple.trim())
-        ? `<hr><div id="zone-exemple"><h3>Exemple</h3>${MarkdownVersHtml(exemple)}</div>`
+        ? `<hr><div id="zone-exemple"><h3>Pour illustrer <span class="titre-precision">(parfois avec humour, parfois sans…)</span></h3>${MarkdownVersHtml(exemple)}</div>`
         : "";
     function extraireIdYoutube(url) {
         const m = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
@@ -85,8 +85,19 @@ function terminer(victoire) {
             return `<a href="${url}" target="_blank" rel="noopener">${url}</a>`;
         });
     }
-    const blocRebonds = (rebonds && rebonds.trim())
-        ? `<hr><div id="zone-rebonds"><h3>Rebonds</h3>${rebondsVersHtml(rebonds)}</div>`
+    const photoRebond = infosMots.aujourdhui[3] || "";
+    function imageRebondVersHtml(valeur) {
+        if (!valeur || !valeur.trim()) return "";
+        const sepIndex = valeur.indexOf("|");
+        const chemin = (sepIndex === -1 ? valeur : valeur.slice(0, sepIndex)).trim();
+        if (!chemin) return "";
+        const legende = sepIndex === -1 ? "" : valeur.slice(sepIndex + 1).trim();
+        const src = /^https?:\/\//i.test(chemin) ? chemin : `images/${chemin}`;
+        return `<img src="${src}" alt="${legende}" class="image-rebond" onerror="this.style.display='none'">`
+            + (legende ? `<span class="titre-precision legende-rebond">${legende}</span>` : "");
+    }
+    const blocRebonds = (rebonds.trim() || photoRebond.trim())
+        ? `<hr><div id="zone-rebonds"><h3>Pour rebondir <span class="titre-precision">(parfois loin…)</span></h3>${rebondsVersHtml(rebonds)}${imageRebondVersHtml(photoRebond)}</div>`
         : "";
     const partageActif =
         (typeof window.variantePartagerActif === "function")
@@ -128,10 +139,7 @@ function terminer(victoire) {
         </div>
         ${blocExemple}
         ${blocRebonds}
-        <hr>
-        <div id="zone-image-def"></div>
     `;
-    afficherImageDuMot();
     afficherMessageFinal();
     afficherLienRejouer();
 }
@@ -184,25 +192,6 @@ function afficherLienRejouer() {
     a.innerHTML = '<span class="lien-carte-titre">🎲 MotPsy54</span>'
               + '<span class="lien-carte-sous-texte">Une ancienne partie au hasard</span>';
     grille.appendChild(a);
-}
-function afficherImageDuMot() {
-    const cont = document.getElementById("zone-image-def");
-    const nomFichier = motSolution
-        .toUpperCase()
-        .replaceAll(" ", "")
-        .replaceAll("'", "")
-        .replaceAll("'", "");
-    const img = document.createElement("img");
-    img.className = "image-def";
-    img.alt = motSolution;
-    img.onload = () => {
-        cont.innerHTML = "";
-        cont.appendChild(img);
-    };
-    img.onerror = () => {
-        // rien : pas d'image
-    };
-    img.src = `images/${nomFichier}.jpg`; 
 }
 function genererGrillePartage(victoire) {
     const numeroMotpsy = infosMots.index + 1;

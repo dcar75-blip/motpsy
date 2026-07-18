@@ -262,12 +262,22 @@ hr {
 
 
 /* --- L'affichage final*/
-.image-def{
+.titre-precision{
+  font-size: 0.72em;
+  font-style: italic;
+  font-weight: normal;
+}
+
+.image-rebond{
   display:block;
-  width:100%;
-  max-width:500px;
+  max-width:100%;
   height:auto;
-  margin:12px auto 0;
+  margin:8px auto 0;
+}
+
+.legende-rebond{
+  display:block;
+  margin-top:4px;
 }
 
 #message-final{
