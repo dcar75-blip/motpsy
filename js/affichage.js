@@ -84,11 +84,28 @@ function afficherHier() {
     }
 }
 
+let indiceTimeoutMasquage = null;
+let indiceTimeoutSuppression = null;
+
 function afficherAide() {
     const complement = infosMots.aujourdhui[6];
-    if (!complement) return;
-    notifier( `${CONFIG.texteprefixAide} <span class="aide"> ${MarkdownVersHtml(complement)}</span>`, CONFIG.dureeMessageAide); 
-    
+    if (!complement || !complement.trim()) return;
+    const zone = document.getElementById('zone-indice');
+    if (!zone) return;
+
+    if (indiceTimeoutMasquage) clearTimeout(indiceTimeoutMasquage);
+    if (indiceTimeoutSuppression) clearTimeout(indiceTimeoutSuppression);
+
+    zone.style.opacity = "1";
+    zone.innerHTML = `<p class="bloc-rappels-titre">Coup de pouce</p><p class="aide">${MarkdownVersHtml(complement)}</p>`;
+
+    indiceTimeoutMasquage = setTimeout(() => {
+        zone.style.opacity = "0";
+        indiceTimeoutSuppression = setTimeout(() => {
+            zone.innerHTML = "";
+            zone.style.opacity = "1";
+        }, 500);
+    }, CONFIG.dureeMessageAide);
 }
 
 function afficherMessageFinal() {

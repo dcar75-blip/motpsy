@@ -145,6 +145,22 @@ hr {
 	display: none;
 }
 
+#zone-indice {
+  max-width: 500px;
+  margin: 5px auto;
+  padding: 5px;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  background-color: #fcfcfc;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+#zone-indice:empty {
+	display: none;
+}
+
 .bloc-rappels {
     hyphens: auto;
 }
