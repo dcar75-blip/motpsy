@@ -276,6 +276,14 @@ hr {
   color: var(--miseenavant3)   ;
 }
 
+.indice-vignette {
+  font-style: italic;
+  font-size: 0.82em;
+  font-weight: normal;
+  opacity: 0.75;
+  margin: 0 0 6px 0;
+}
+
 
 /* --- L'affichage final*/
 .titre-precision{
