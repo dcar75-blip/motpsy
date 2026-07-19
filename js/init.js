@@ -137,6 +137,12 @@ function messageCaracteresSpeciaux(mot) {
         messages.push('📏 Ce mot est long ! Tu peux taper des mots plus courts pour repérer des lettres — elles compteront même si elles sont vers la fin du mot à trouver aujourd\'hui. Valide comme d\'habitude avec la touche Entrée du clavier.');
     }
 
+    // Attribut transversal : indice disponible
+    const indice = (infosMots && infosMots.aujourdhui) ? infosMots.aujourdhui[6] : "";
+    if (indice && String(indice).trim() !== "") {
+        messages.push('💡 Tu n\'as pas ton Laplanche et Pontalis sous la main ? Aujourd\'hui, si tu coinces, il y a un indice sur la touche 💡 du clavier.');
+    }
+
     if (messages.length === 0) return "";
 
     const paragraphes = messages.map(m => `<p>${m}</p>`).join("");
