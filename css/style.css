@@ -272,6 +272,8 @@ hr {
   display:block;
   max-width:100%;
   height:auto;
+  max-height:260px;
+  width:auto;
   margin:8px auto 0;
 }
 
