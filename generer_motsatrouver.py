@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Régénère motsatrouver.js depuis MotPsy_V52_APA.xlsx (onglet Motpsy, lignes 3-138)."""
+"""Régénère motsatrouver.js depuis MotPsy_V54_APA.xlsx (onglet Motpsy, lignes 3-138)."""
 import openpyxl
 
-XLSX = "MotPsy_V52_APA.xlsx"
+XLSX = "MotPsy_V54_APA.xlsx"
 SHEET = "Motpsy"
 FIRST_ROW = 3
 LAST_ROW = 138
