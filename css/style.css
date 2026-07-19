@@ -442,6 +442,12 @@ h3{
     color: var(--miseenavant3);
 }
 
+#zone-exemple, #zone-rebonds,
+#zone-exemple a, #zone-rebonds a {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
 @media (max-width: 480px) {
   :root {
     --cell-max: 60px;
