@@ -159,7 +159,7 @@ function afficherLienRejouer() {
 
     const pool = LISTE_MOTS_A_TROUVER.filter(e => {
         const d = normaliserDate(e[5]);
-        return d && d > DEBUT_OFFICIEL && d < cleJour;
+        return d && d >= DEBUT_OFFICIEL && d < cleJour;
     });
 
     // Garde-fou existant : avant le 12 septembre (ou tant qu'aucun mot n'est
