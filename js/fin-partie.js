@@ -105,7 +105,7 @@ function terminer(victoire) {
             : true;
     const blocPartage = partageActif
     ? `<button type="button" id="lien-partage" class="bouton-partage">
-            Partager mon score 🟥🟧🟦
+            Partager mon score <span style="display:inline-block;width:0.85em;height:0.85em;vertical-align:-0.05em;border-radius:3px;background-color:var(--correct)"></span> <span style="display:inline-block;width:0.85em;height:0.85em;vertical-align:-0.05em;border-radius:3px;background-color:var(--present)"></span> <span style="display:inline-block;width:0.85em;height:0.85em;vertical-align:-0.05em;border-radius:3px;background-color:var(--absent)"></span>
         </button>
         <p class="titre-precision">Seule la grille est partagée, jamais le mot.</p>`
     : "";
@@ -220,7 +220,8 @@ function genererGrillePartage(victoire) {
 }
 function copierPartage(texte, element) {
     if (navigator.share) {
-        navigator.share({ text: texte }).catch(err => {
+        const texteSansAdresse = texte.replace(/\s*https?:\/\/motpsy\.fr\/?\s*$/, "");
+        navigator.share({ text: texteSansAdresse, url: "https://motpsy.fr" }).catch(err => {
             if (err && err.name === "AbortError") return;
         });
         return;
