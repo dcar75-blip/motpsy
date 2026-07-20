@@ -104,9 +104,10 @@ function terminer(victoire) {
             ? window.variantePartagerActif()
             : true;
     const blocPartage = partageActif
-    ? `<p class="cliquable-partage" id="lien-partage">
-            Cliquer pour copier et partager 🟥🟨🟦
-        </p>`
+    ? `<button type="button" id="lien-partage" class="bouton-partage">
+            Partager mon score 🟥🟧🟦
+        </button>
+        <p class="titre-precision">Seule la grille est partagée, jamais le mot.</p>`
     : "";
     zoneMsg.innerHTML = `
     <div class="resultat-final" style="text-align: center;">
@@ -124,7 +125,7 @@ function terminer(victoire) {
     zoneFin.innerHTML = `
         <div id="zone-messagefinal"></div>        
         <div id="zone-liens">
-        <h3>Liens</h3>
+        <h3>Entre deux séances</h3>
             <div class="liens-grid">
                 <a class="lien-carte"
                 href="mailto:motpsy@motpsy.fr?subject=Suggestion%20MotPsy&body=Envoyez-nous%20vos%20suggestions%2C%20des%20mots%20%C3%A0%20trouver%2C%20des%20d%C3%A9finitions...">
@@ -218,9 +219,15 @@ function genererGrillePartage(victoire) {
     return texte;
 }
 function copierPartage(texte, element) {
+    if (navigator.share) {
+        navigator.share({ text: texte }).catch(err => {
+            if (err && err.name === "AbortError") return;
+        });
+        return;
+    }
     navigator.clipboard.writeText(texte).then(() => {
         if (element) {
-            element.innerHTML = "Score copié dans le presse-papier";
+            element.innerHTML = "Score copié ✓";
             element.classList.remove("cliquable-partage");
             element.style.cursor = "default";
             element.onclick = null;

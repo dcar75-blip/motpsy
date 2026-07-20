@@ -346,6 +346,24 @@ hr {
 .lien-carte:hover{
   border-color: var(--miseenavant3) ;
 }
+.bouton-partage{
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid #eee;
+  text-decoration: none;
+  font-weight: 800;
+  color: #38a6d8;
+  text-align:center;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+}
+.bouton-partage:hover{
+  border-color: var(--miseenavant3) ;
+}
 .lien-carte-titre{
   display: block;
 }
