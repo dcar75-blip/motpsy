@@ -219,7 +219,9 @@ function genererGrillePartage(victoire) {
     return texte;
 }
 function copierPartage(texte, element) {
-    if (navigator.share) {
+    const estMobile = navigator.userAgentData?.mobile
+        ?? /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    if (estMobile && navigator.share) {
         const texteSansAdresse = texte.replace(/\s*https?:\/\/motpsy\.fr\/?\s*$/, "");
         navigator.share({ text: texteSansAdresse, url: "https://motpsy.fr" }).catch(err => {
             if (err && err.name === "AbortError") return;
