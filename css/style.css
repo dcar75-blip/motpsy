@@ -456,7 +456,7 @@ hr {
 }
 
 /* --- les panels --- */
-#zone-messagefinal, #zone-jour, #zone-exemple, #zone-rebonds, #zone-hier, #regles {
+#zone-messagefinal, #zone-jour, #zone-exemple, #zone-rebonds, #zone-hier, #regles, .panel-legal {
     max-width: 500px;
     margin: 20px auto;
     padding: 0 15px;
@@ -482,7 +482,7 @@ h3{
     font-size: 1.2rem;
 }
 
-#zone-messagefinal a, #zone-jour a, #zone-exemple a, #zone-rebonds a, #zone-hier a {
+#zone-messagefinal a, #zone-jour a, #zone-exemple a, #zone-rebonds a, #zone-hier a, .panel-legal a {
     color: var(--miseenavant3);
 }
 
@@ -508,4 +508,42 @@ h3{
   :root {
     --cell-max: 60px;
   }
+}
+
+/* --- Logo clair/sombre (partagé entre les pages) --- */
+img.logo-clair  { display: block !important; }
+img.logo-sombre { display: none !important; }
+html[data-theme="dark"] img.logo-clair  { display: none !important; }
+html[data-theme="dark"] img.logo-sombre { display: block !important; }
+
+/* --- Lien "retour au jeu" (pages annexes) --- */
+.retour-jeu {
+    display: block;
+    text-align: center;
+    margin: 20px auto 10px auto;
+    font-weight: bold;
+    color: var(--miseenavant);
+    text-decoration: none;
+}
+
+.retour-jeu:hover {
+    color: var(--miseenavant3);
+}
+
+/* --- Lien mentions legales (pied de page) --- */
+.lien-mentions {
+    display: block;
+    text-align: center;
+    margin: 25px auto 15px auto;
+    font-size: 0.75rem;
+}
+
+.lien-mentions a {
+    color: #999;
+    text-decoration: none;
+}
+
+.lien-mentions a:hover {
+    color: #777;
+    text-decoration: underline;
 }
