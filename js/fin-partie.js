@@ -105,7 +105,7 @@ function terminer(victoire) {
             : true;
     const blocPartage = partageActif
     ? `<button type="button" id="lien-partage" class="bouton-partage">
-            Partager mon score <span style="display:inline-block;width:0.85em;height:0.85em;vertical-align:-0.05em;border-radius:3px;background-color:var(--correct)"></span> <span style="display:inline-block;width:0.85em;height:0.85em;vertical-align:-0.05em;border-radius:3px;background-color:var(--present)"></span> <span style="display:inline-block;width:0.85em;height:0.85em;vertical-align:-0.05em;border-radius:3px;background-color:var(--absent)"></span>
+            Partager mon score avec les copains <span style="display:inline-block;width:0.85em;height:0.85em;vertical-align:-0.05em;border-radius:3px;background-color:var(--correct)"></span> <span style="display:inline-block;width:0.85em;height:0.85em;vertical-align:-0.05em;border-radius:3px;background-color:var(--present)"></span> <span style="display:inline-block;width:0.85em;height:0.85em;vertical-align:-0.05em;border-radius:3px;background-color:var(--absent)"></span>
         </button>
         <p class="titre-precision">Seule la grille est partagée, jamais le mot.</p>`
     : "";
@@ -230,7 +230,7 @@ function copierPartage(texte, element) {
     }
     navigator.clipboard.writeText(texte).then(() => {
         if (element) {
-            element.innerHTML = "Score copié ✓";
+            element.innerHTML = "Score copié, prêt à être envoyé ✓";
             element.classList.remove("cliquable-partage");
             element.style.cursor = "default";
             element.onclick = null;
