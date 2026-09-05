@@ -330,8 +330,13 @@ hr {
 }
 
 .legende-rebond{
-  display:block;
-  margin-top:4px;
+  display: block;
+  text-align: center;
+  font-style: italic;
+  font-size: 1.18rem;
+  font-weight: 600;
+  color: var(--texte);
+  margin: 0 0 10px;
 }
 
 #message-final{

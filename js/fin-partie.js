@@ -93,8 +93,8 @@ function terminer(victoire) {
         if (!chemin) return "";
         const legende = sepIndex === -1 ? "" : valeur.slice(sepIndex + 1).trim();
         const src = /^https?:\/\//i.test(chemin) ? chemin : `images/${chemin}`;
-        return `<img src="${src}" alt="${legende}" class="image-rebond" onerror="this.style.display='none'">`
-            + (legende ? `<span class="titre-precision legende-rebond">${legende}</span>` : "");
+        return (legende ? `<p class="legende-rebond">${legende}</p>` : "")
+            + `<img src="${src}" alt="${legende}" class="image-rebond" onerror="this.style.display='none'">`;
     }
     const blocRebonds = (rebonds.trim() || photoRebond.trim())
         ? `<hr><div id="zone-rebonds"><h3>Pour rebondir <span class="titre-precision">(parfois loin…)</span></h3>${rebondsVersHtml(rebonds)}${imageRebondVersHtml(photoRebond)}</div>`
