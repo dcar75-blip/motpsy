@@ -176,7 +176,7 @@ function afficherBandeauVacances() {
   const div = document.createElement('div');
   div.id = 'bandeau-vacances';
   div.style.cssText = 'background:#e8f4fd;border:1px solid #50BBF6;border-radius:8px;padding:12px 16px;margin:0 auto 16px auto;max-width:500px;text-align:center;font-size:0.95rem;line-height:1.5;';
-  div.innerHTML = 'MotPsy est en supervision pendant les vacances 😎<br>En attendant la rentrée avec pléthore de nouveaux mots, rejoue chaque jour une ancienne partie et partage-la sur tes réseaux !';
+  div.innerHTML = 'MotPsy est en supervision pendant les vacances 😎<br>En attendant la rentrée avec pléthore de nouveaux mots, rejoue chaque jour une ancienne partie et partage-la sur tes réseaux !<br><b>Aujourd\'hui, tu rejoues la partie ' + infosMots.numeroPartie + '/1000.</b>';
   const header = document.querySelector('header');
   if (header) header.insertAdjacentElement('afterend', div);
 }

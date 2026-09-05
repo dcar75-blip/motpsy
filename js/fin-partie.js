@@ -23,7 +23,7 @@ function terminer(victoire) {
     if (notifTimeout) clearTimeout(notifTimeout);
     const zoneMsg = document.getElementById('zone-message');
     const zoneFin = document.getElementById('zone-fin');
-    const numeroMotpsy = infosMots.index + 1;
+    const numeroMotpsy = infosMots.numeroPartie;
 
     const attribution = contributeurs[motSolution]
         ? `<br /><span style="font-size:0.85em;font-style:italic;color:#888;">Mot proposé par ${contributeurs[motSolution]}</span>`
@@ -136,7 +136,7 @@ function terminer(victoire) {
         <hr>
         <div id="zone-jour">
             <h3>Dans les livres psy</h3>
-            <b>MotPsy n° ${numeroMotpsy} : ${infosMots.aujourdhui[0]}</b> <br /> ${MarkdownVersHtml(infosMots.aujourdhui[1])}${attribution}
+            <b>MotPsy n° ${numeroMotpsy}/1000 : ${infosMots.aujourdhui[0]}</b> <br /> ${MarkdownVersHtml(infosMots.aujourdhui[1])}${attribution}
         </div>
         ${blocExemple}
         ${blocRebonds}
@@ -195,8 +195,8 @@ function afficherLienRejouer() {
     grille.appendChild(a);
 }
 function genererGrillePartage(victoire) {
-    const numeroMotpsy = infosMots.index + 1;
-    let texte = `#MOTPSY n°${numeroMotpsy} - `;
+    const numeroMotpsy = infosMots.numeroPartie;
+    let texte = `#MOTPSY n°${numeroMotpsy}/1000 - `;
     texte += victoire ? `${ligneActuelle + 1}/${CONFIG.maxEssais} \n`:`-/${CONFIG.maxEssais} \n`;
     if (victoire) {
         const special = messageVictoireSpecial(ligneActuelle, true);

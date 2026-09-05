@@ -97,7 +97,7 @@ function afficherAide() {
     if (indiceTimeoutSuppression) clearTimeout(indiceTimeoutSuppression);
 
     zone.style.opacity = "1";
-    zone.innerHTML = `<p class="indice-vignette">L'analyste dit un simple « oui ». Le visage du patient s'éclaira.</p><p class="aide">${MarkdownVersHtml(complement)}</p>`;
+    zone.innerHTML = `<p class="zone-indice-titre"><span class="zi-ampoule">💡</span><span class="zi-mot">Indice</span> <span class="indice-vignette">(L'analyste dit un simple « oui ». Le visage du patient s'éclaira.)</span></p><p class="aide">${MarkdownVersHtml(complement)}</p>`;
 
     indiceTimeoutMasquage = setTimeout(() => {
         zone.style.opacity = "0";

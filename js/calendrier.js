@@ -73,5 +73,9 @@ function obtenirInfosMots() {
     const [LY, LM, LJ] = DATE_LANCEMENT.split("-").map(Number);
     const index = Math.round((Date.UTC(Y, M - 1, J) - Date.UTC(LY, LM - 1, LJ)) / 86400000);
 
-    return { aujourdhui, hier, index };
+    // Numéro de partie : position du mot dans la séquence (mot programmé
+    // ou mot rejoué), indépendamment du calendrier.
+    const numeroPartie = LISTE_MOTS_A_TROUVER.indexOf(aujourdhui) + 1;
+
+    return { aujourdhui, hier, index, numeroPartie };
 }

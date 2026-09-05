@@ -147,11 +147,13 @@ hr {
 
 #zone-indice {
   max-width: 500px;
-  margin: 5px auto;
-  padding: 5px;
+  margin: 5px auto 10px;
+  padding: 12px 14px;
   font-size: 1.1rem;
   border-radius: 8px;
-  background-color: #fcfcfc;
+  background: var(--fond);
+  border: 1px solid #ececec;
+  border-left: 4px solid #f0c400;
   justify-content: center;
   opacity: 1;
   transition: opacity 0.5s ease;
@@ -163,18 +165,25 @@ hr {
 
 .bloc-rappels {
     hyphens: auto;
+    max-width: 500px;
+    margin: 0 auto 10px;
+    padding: 12px 14px;
+    background: var(--fond);
+    border: 1px solid #ececec;
+    border-left: 4px solid var(--miseenavant);
+    border-radius: 8px;
 }
 
 .bloc-rappels-titre {
     font-variant: small-caps;
-    text-align: center;
-    color: var(--sous-titre-motchus);
+    text-align: left;
+    color: var(--miseenavant);
     font-weight: bold;
     margin: 0 0 8px;
 }
 
 .bloc-rappels p:not(.bloc-rappels-titre) {
-    color: var(--miseenavant);
+    color: var(--texte);
     text-align: justify;
     margin: 0 0 12px;
 }
@@ -273,15 +282,34 @@ hr {
 
 /* --- Aide */
 .aide{
-  color: var(--miseenavant3)   ;
+  color: var(--texte);
+  font-weight: bold;
 }
 
 .indice-vignette {
   font-style: italic;
   font-size: 0.82em;
   font-weight: normal;
-  opacity: 0.75;
-  margin: 0 0 6px 0;
+  color: var(--sous-titre-motchus);
+}
+
+.zone-indice-titre {
+  margin: 0 0 8px;
+  line-height: 1.4;
+}
+
+.zi-ampoule {
+  font-size: 20px;
+  vertical-align: -2px;
+  margin-right: 6px;
+}
+
+.zi-mot {
+  font-variant: small-caps;
+  letter-spacing: .03em;
+  color: #b37f00;
+  font-weight: bold;
+  font-size: 1rem;
 }
 
 
