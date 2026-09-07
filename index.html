@@ -19,6 +19,10 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content="https://motpsy.fr/Logo_Fond_Blanc.png">
     <link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#1368B0">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="MotPsy">
    <style>header img.logo { height: 260px; aspect-ratio: 1000 / 810; object-fit: contain; margin: -70px auto 0px auto; }
         img.logo-clair  { display: block !important; }
         img.logo-sombre { display: none !important; }
@@ -164,5 +168,12 @@
 <script src="js/fin-partie.js?v=20260905c"></script>
 <script src="js/init.js?v=20260905a"></script>
 <script data-goatcounter="https://stats.motpsy.fr/count" async src="//stats.motpsy.fr/count.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('/sw.js').catch(function (e) { console.warn('SW non enregistré :', e); });
+  });
+}
+</script>
 </body>
 </html>
