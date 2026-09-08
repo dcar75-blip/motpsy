@@ -175,5 +175,50 @@ if ('serviceWorker' in navigator) {
   });
 }
 </script>
+<script>
+// PWA — invite d'installation Android (Chrome/Edge). Ne se déclenche jamais sur iOS.
+(function () {
+  // Déjà installé / lancé en mode app : ne rien proposer.
+  if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) return;
+
+  var deferredPrompt = null;
+  var btn = null;
+
+  function creerBouton() {
+    if (btn) return btn;
+    btn = document.createElement('button');
+    btn.type = 'button';
+    btn.id = 'pwa-install-btn';
+    btn.textContent = '📲 Installer MotPsy';   // ← texte modifiable
+    btn.style.cssText = [
+      'position:fixed', 'bottom:16px', 'left:50%', 'transform:translateX(-50%)',
+      'z-index:9999', 'padding:10px 18px', 'border:none', 'border-radius:24px',
+      'background:#1368B0', 'color:#fff', 'font:600 15px system-ui,sans-serif',
+      'box-shadow:0 3px 10px rgba(0,0,0,.25)', 'cursor:pointer'
+    ].join(';');
+    btn.addEventListener('click', function () {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(function () {
+        deferredPrompt = null;
+        btn.style.display = 'none';
+      });
+    });
+    document.body.appendChild(btn);
+    return btn;
+  }
+
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();                 // supprime l'infobar Chrome par défaut
+    deferredPrompt = e;
+    creerBouton().style.display = 'block';
+  });
+
+  window.addEventListener('appinstalled', function () {
+    deferredPrompt = null;
+    if (btn) btn.style.display = 'none';
+  });
+})();
+</script>
 </body>
 </html>
