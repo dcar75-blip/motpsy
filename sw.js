@@ -1,8 +1,8 @@
 // MotPsy — service worker
-// network-first pour code + données (fraîcheur garantie),
-// cache-first pour images + polices. Ignore le cross-origin (GoatCounter, liens externes).
+// network-first pour code + données, cache-first pour images + polices.
+// Ignore le cross-origin (GoatCounter, liens externes).
 
-const CACHE_VERSION = 'motpsy-v1';   // bumper CE numéro si tu modifies ce fichier
+const CACHE_VERSION = 'motpsy-v2';   // bumper CE numéro si tu modifies ce fichier
 const PRECACHE = ['/'];
 
 self.addEventListener('install', (event) => {
@@ -50,3 +50,31 @@ async function cacheFirst(req) {
   if (fresh && fresh.ok) cache.put(req, fresh.clone());
   return fresh;
 }
+
+// --- Notifications push ---
+self.addEventListener('push', (event) => {
+  let data = {};
+  try { data = event.data ? event.data.json() : {}; } catch (e) { data = {}; }
+  const title = data.title || 'MotPsy';
+  const options = {
+    body: data.body || 'Ta partie du jour est prête !',
+    icon: '/icon-512.png',
+    badge: '/favicon-192.png',
+    tag: 'motpsy-daily',
+    data: { url: data.url || '/' }
+  };
+  event.waitUntil(self.registration.showNotification(title, options));
+});
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const cible = (event.notification.data && event.notification.data.url) || '/';
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((wins) => {
+      for (const w of wins) {
+        if (w.url.indexOf(self.location.origin) === 0 && 'focus' in w) return w.focus();
+      }
+      if (clients.openWindow) return clients.openWindow(cible);
+    })
+  );
+});
