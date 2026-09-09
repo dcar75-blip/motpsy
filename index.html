@@ -221,63 +221,91 @@ if ('serviceWorker' in navigator) {
 })();
 </script>
 <script>
-// MotPsy — abonnement aux notifications push
+// MotPsy — abonnement aux notifications push, avec choix du créneau
 (function () {
   var VAPID_PUBLIC = 'BEOGBwBbXFyMzPvCxn8Y_ld2cVkipguWwVjyOHi_U9aVlZK1jsMI2YUJQyp-LwQkEGhh2XZhuu4IRIbAOsDpw98';
-
-  // Push non supporté (ex. iPhone hors PWA installé) : on n'affiche rien.
   if (!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window)) return;
 
-  function urlBase64ToUint8Array(base64String) {
+  var CRENEAUX = [
+    { id: 'matin', label: '🌅 Matin · 8h' },
+    { id: 'midi',  label: '🌤️ Midi · 12h30' },
+    { id: 'soir',  label: '🌙 Soir · 22h' }
+  ];
+
+  function u8(base64String) {
     var padding = '='.repeat((4 - base64String.length % 4) % 4);
-    var base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
-    var raw = atob(base64);
-    var arr = new Uint8Array(raw.length);
+    var b64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+    var raw = atob(b64), arr = new Uint8Array(raw.length);
     for (var i = 0; i < raw.length; i++) arr[i] = raw.charCodeAt(i);
     return arr;
   }
 
-  var btn = document.createElement('button');
-  btn.type = 'button';
-  btn.id = 'pwa-notif-btn';
-  btn.textContent = '🔔 Me rappeler chaque matin';
-  btn.style.cssText = [
+  var wrap = document.createElement('div');
+  wrap.id = 'pwa-notif-btn';
+  wrap.style.cssText = [
     'position:fixed', 'bottom:16px', 'right:16px', 'z-index:9999',
-    'padding:10px 16px', 'border:none', 'border-radius:24px',
-    'background:#e7002a', 'color:#fff', 'font:600 14px system-ui,sans-serif',
-    'box-shadow:0 3px 10px rgba(0,0,0,.25)', 'cursor:pointer'
+    'display:flex', 'flex-direction:column', 'gap:6px', 'align-items:flex-end',
+    'font:600 14px system-ui,sans-serif'
   ].join(';');
 
-  // Déjà abonné ? On masque le bouton.
-  navigator.serviceWorker.ready.then(function (reg) {
-    return reg.pushManager.getSubscription();
-  }).then(function (sub) {
-    if (!sub) document.body.appendChild(btn);
-  }).catch(function () {});
+  function stylePrincipal(b) {
+    b.style.cssText = 'padding:10px 16px;border:none;border-radius:24px;background:#e7002a;color:#fff;font:inherit;box-shadow:0 3px 10px rgba(0,0,0,.25);cursor:pointer';
+  }
+  function styleChoix(b) {
+    b.style.cssText = 'padding:9px 14px;border:none;border-radius:20px;background:#1368B0;color:#fff;font:inherit;box-shadow:0 2px 8px rgba(0,0,0,.2);cursor:pointer';
+  }
 
-  btn.addEventListener('click', function () {
+  var principal = document.createElement('button');
+  principal.type = 'button';
+  principal.textContent = '🔔 Me rappeler chaque jour';
+  stylePrincipal(principal);
+
+  var choix = document.createElement('div');
+  choix.style.cssText = 'display:none;flex-direction:column;gap:6px;align-items:flex-end';
+
+  principal.addEventListener('click', function () {
+    choix.style.display = (choix.style.display === 'none') ? 'flex' : 'none';
+  });
+
+  function abonner(creneau) {
     Notification.requestPermission().then(function (perm) {
-      if (perm !== 'granted') { btn.textContent = '🔕 Notifications refusées'; return; }
+      if (perm !== 'granted') { principal.textContent = '🔕 Notifications refusées'; choix.style.display = 'none'; return; }
       navigator.serviceWorker.ready.then(function (reg) {
-        return reg.pushManager.subscribe({
-          userVisibleOnly: true,
-          applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC)
-        });
+        return reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: u8(VAPID_PUBLIC) });
       }).then(function (sub) {
         return fetch('/push/subscribe.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(sub)
+          body: JSON.stringify({ subscription: sub, creneau: creneau })
         });
-      }).then(function () {
-        btn.textContent = '✅ Rappel activé';
-        setTimeout(function () { btn.style.display = 'none'; }, 2500);
+      }).then(function (r) { return r.json(); }).then(function () {
+        principal.textContent = '✅ Rappel activé';
+        choix.style.display = 'none';
+        setTimeout(function () { wrap.style.display = 'none'; }, 2500);
       }).catch(function (err) {
         console.warn('Abonnement push échoué :', err);
-        btn.textContent = '⚠️ Réessaie plus tard';
+        principal.textContent = '⚠️ Réessaie plus tard';
       });
     });
+  }
+
+  CRENEAUX.forEach(function (c) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = c.label;
+    styleChoix(b);
+    b.addEventListener('click', function () { abonner(c.id); });
+    choix.appendChild(b);
   });
+
+  wrap.appendChild(choix);
+  wrap.appendChild(principal);
+
+  navigator.serviceWorker.ready.then(function (reg) {
+    return reg.pushManager.getSubscription();
+  }).then(function (sub) {
+    if (!sub) document.body.appendChild(wrap);
+  }).catch(function () {});
 })();
 </script>
 </body>
