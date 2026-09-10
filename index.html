@@ -226,6 +226,10 @@ if ('serviceWorker' in navigator) {
   var VAPID_PUBLIC = 'BEOGBwBbXFyMzPvCxn8Y_ld2cVkipguWwVjyOHi_U9aVlZK1jsMI2YUJQyp-LwQkEGhh2XZhuu4IRIbAOsDpw98';
   if (!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window)) return;
 
+  if (Notification.permission === 'denied') {
+    // permission bloquée au niveau navigateur : on prépare le bouton mais on aidera au clic
+  }
+
   var CRENEAUX = [
     { id: 'matin', label: '🌅 Matin · 8h' },
     { id: 'midi',  label: '🌤️ Midi · 12h30' },
@@ -267,9 +271,24 @@ if ('serviceWorker' in navigator) {
     choix.style.display = (choix.style.display === 'none') ? 'flex' : 'none';
   });
 
+  function afficherAide() {
+    if (document.getElementById('pwa-notif-aide')) return;
+    var aide = document.createElement('div');
+    aide.id = 'pwa-notif-aide';
+    aide.style.cssText = 'max-width:280px;margin-top:6px;padding:8px 10px;background:#fff6f6;border-radius:8px;color:#a3402d;font:400 12px system-ui,sans-serif;text-align:right;';
+    aide.textContent = 'Déjà refusé ? Clique le 🔒 dans la barre d’adresse → Notifications → Autoriser, puis recharge.';
+    wrap.appendChild(aide);
+  }
+
   function abonner(creneau) {
     Notification.requestPermission().then(function (perm) {
-      if (perm !== 'granted') { principal.textContent = '🔕 Notifications refusées'; choix.style.display = 'none'; return; }
+      if (perm !== 'granted') {
+        principal.textContent = '🔕 Autorisation refusée';
+        afficherAide();
+        choix.style.display = 'none';
+        setTimeout(function () { principal.textContent = '🔔 Me rappeler chaque jour'; }, 3000);
+        return;
+      }
       navigator.serviceWorker.ready.then(function (reg) {
         return reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: u8(VAPID_PUBLIC) });
       }).then(function (sub) {
