@@ -105,7 +105,7 @@ function terminer(victoire) {
             : true;
     const blocPartage = partageActif
     ? `<button type="button" id="lien-partage" class="bouton-partage">
-            Partager mon score avec les copains (le mot ne s'affichera pas) <span style="display:inline-block;width:0.85em;height:0.85em;vertical-align:-0.05em;border-radius:3px;background-color:var(--correct)"></span> <span style="display:inline-block;width:0.85em;height:0.85em;vertical-align:-0.05em;border-radius:3px;background-color:var(--present)"></span> <span style="display:inline-block;width:0.85em;height:0.85em;vertical-align:-0.05em;border-radius:3px;background-color:var(--absent)"></span>
+            Partager mon score avec les copains <span style="display:inline-block;width:0.85em;height:0.85em;vertical-align:-0.05em;border-radius:3px;background-color:var(--correct)"></span> <span style="display:inline-block;width:0.85em;height:0.85em;vertical-align:-0.05em;border-radius:3px;background-color:var(--present)"></span> <span style="display:inline-block;width:0.85em;height:0.85em;vertical-align:-0.05em;border-radius:3px;background-color:var(--absent)"></span><br>(le mot ne s'affichera pas)
         </button>`
     : "";
     zoneMsg.innerHTML = `
@@ -150,7 +150,7 @@ function terminer(victoire) {
       var etapes;
       if (estIOS) {
         etapes = `<ol style="margin:0;padding-left:20px;line-height:1.6;">
-          <li>Ouvrir motpsy.fr dans <b>Safari</b> (pas Chrome ni Google).</li>
+          <li><b>Installer d'abord</b> : ouvrir motpsy.fr dans <b>Safari</b> (pas Chrome ni Google).</li>
           <li>Toucher <b>Partager</b> ⬆️, puis <b>faire défiler</b> jusqu'à <b>« Sur l'écran d'accueil »</b> (souvent cachée plus bas).</li>
           <li>Lancer MotPsy depuis la nouvelle <b>icône</b>.</li>
           <li>Toucher <b>🔔 Me rappeler</b>, puis choisir Matin / Midi / Soir.</li>
@@ -158,17 +158,17 @@ function terminer(victoire) {
         <p style="margin:8px 0 0;padding:8px 10px;background:#fff6f6;border-radius:8px;color:#a3402d;font-size:13px;">Sur iPhone, le 🔔 n'apparaît qu'une fois le jeu lancé depuis l'icône, jamais dans Safari.</p>`;
       } else if (estAndroid) {
         etapes = `<ol style="margin:0;padding-left:20px;line-height:1.6;">
-          <li>Ouvrir motpsy.fr dans <b>Chrome</b>.</li>
-          <li>Toucher <b>📲 Installer</b> (ou menu ⋮ → « Installer l'application »).</li>
+          <li><b>Installer d'abord</b> : ouvrir motpsy.fr dans <b>Chrome</b>.</li>
+          <li>Toucher le bouton bleu <b>📲 Installer</b> (ou menu ⋮ → « Installer l'application »).</li>
           <li>Lancer MotPsy depuis l'<b>icône</b>.</li>
           <li>Toucher <b>🔔 Me rappeler</b>, puis choisir Matin / Midi / Soir.</li>
         </ol>`;
       } else {
         etapes = `<ol style="margin:0;padding-left:20px;line-height:1.6;">
-          <li>Cliquer l'icône d'installation dans la barre d'adresse (facultatif).</li>
-          <li>Toucher <b>🔔 Me rappeler</b>, puis choisir le créneau.</li>
-        </ol>
-        <p style="margin:8px 0 0;padding:8px 10px;background:#eef4f8;border-radius:8px;color:#3a3d43;font-size:13px;">Pour recevoir les rappels sur mobile, ouvrir motpsy.fr sur ton téléphone.</p>`;
+          <li><b>Installer d'abord</b> : tout <b>à droite de la barre d'adresse</b>, cliquer l'icône d'installation <svg width="17" height="17" viewBox="0 0 24 24" style="vertical-align:-3px;"><rect x="3.5" y="4.5" width="17" height="12" rx="2" fill="none" stroke="#1b6f97" stroke-width="1.6"/><path d="M12 7.5V12.5M9.5 10.5 12 13 14.5 10.5" fill="none" stroke="#1b6f97" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 19.5H15" stroke="#1b6f97" stroke-width="1.6" stroke-linecap="round"/></svg> (un petit écran avec une flèche vers le bas). <span style="color:#8a8d93;">Pas d'icône ? Menu ⋯ / ⋮ en haut à droite → « Installer MotPsy ».</span></li>
+          <li>Lancer MotPsy depuis la nouvelle <b>icône</b> (bureau ou menu Démarrer).</li>
+          <li>Cliquer <b>🔔 Me rappeler</b>, puis choisir le créneau.</li>
+        </ol>`;
       }
       var det = document.createElement("details");
       det.className = "guide-install";
