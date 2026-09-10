@@ -105,9 +105,8 @@ function terminer(victoire) {
             : true;
     const blocPartage = partageActif
     ? `<button type="button" id="lien-partage" class="bouton-partage">
-            Partager mon score avec les copains <span style="display:inline-block;width:0.85em;height:0.85em;vertical-align:-0.05em;border-radius:3px;background-color:var(--correct)"></span> <span style="display:inline-block;width:0.85em;height:0.85em;vertical-align:-0.05em;border-radius:3px;background-color:var(--present)"></span> <span style="display:inline-block;width:0.85em;height:0.85em;vertical-align:-0.05em;border-radius:3px;background-color:var(--absent)"></span>
-        </button>
-        <p class="titre-precision">Seule la grille est partagée, jamais le mot.</p>`
+            Partager mon score avec les copains (le mot ne s'affichera pas) <span style="display:inline-block;width:0.85em;height:0.85em;vertical-align:-0.05em;border-radius:3px;background-color:var(--correct)"></span> <span style="display:inline-block;width:0.85em;height:0.85em;vertical-align:-0.05em;border-radius:3px;background-color:var(--present)"></span> <span style="display:inline-block;width:0.85em;height:0.85em;vertical-align:-0.05em;border-radius:3px;background-color:var(--absent)"></span>
+        </button>`
     : "";
     zoneMsg.innerHTML = `
     <div class="resultat-final" style="text-align: center;">
@@ -129,7 +128,7 @@ function terminer(victoire) {
             <div class="liens-grid">
                 <a class="lien-carte"
                 href="mailto:motpsy@motpsy.fr?subject=Suggestion%20MotPsy&body=Envoyez-nous%20vos%20suggestions%2C%20des%20mots%20%C3%A0%20trouver%2C%20des%20d%C3%A9finitions...">
-                Écrivez à MotPsy&nbsp;!
+                Écrire à MotPsy&nbsp;!
                 </a>
             </div>
         </div>
@@ -141,6 +140,44 @@ function terminer(victoire) {
         ${blocExemple}
         ${blocRebonds}
     `;
+    // --- Guide d'installation adaptatif (PC / iPhone / Android) ---
+    (function () {
+      var zl = document.getElementById("zone-liens");
+      if (!zl || zl.querySelector(".guide-install")) return;
+      var ua = navigator.userAgent || "";
+      var estIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      var estAndroid = /Android/.test(ua);
+      var etapes;
+      if (estIOS) {
+        etapes = `<ol style="margin:0;padding-left:20px;line-height:1.6;">
+          <li>Ouvrir motpsy.fr dans <b>Safari</b> (pas Chrome ni Google).</li>
+          <li>Toucher <b>Partager</b> ⬆️, puis <b>faire défiler</b> jusqu'à <b>« Sur l'écran d'accueil »</b> (souvent cachée plus bas).</li>
+          <li>Lancer MotPsy depuis la nouvelle <b>icône</b>.</li>
+          <li>Toucher <b>🔔 Me rappeler</b>, puis choisir Matin / Midi / Soir.</li>
+        </ol>
+        <p style="margin:8px 0 0;padding:8px 10px;background:#fff6f6;border-radius:8px;color:#a3402d;font-size:13px;">Sur iPhone, le 🔔 n'apparaît qu'une fois le jeu lancé depuis l'icône, jamais dans Safari.</p>`;
+      } else if (estAndroid) {
+        etapes = `<ol style="margin:0;padding-left:20px;line-height:1.6;">
+          <li>Ouvrir motpsy.fr dans <b>Chrome</b>.</li>
+          <li>Toucher <b>📲 Installer</b> (ou menu ⋮ → « Installer l'application »).</li>
+          <li>Lancer MotPsy depuis l'<b>icône</b>.</li>
+          <li>Toucher <b>🔔 Me rappeler</b>, puis choisir Matin / Midi / Soir.</li>
+        </ol>`;
+      } else {
+        etapes = `<ol style="margin:0;padding-left:20px;line-height:1.6;">
+          <li>Cliquer l'icône d'installation dans la barre d'adresse (facultatif).</li>
+          <li>Toucher <b>🔔 Me rappeler</b>, puis choisir le créneau.</li>
+        </ol>
+        <p style="margin:8px 0 0;padding:8px 10px;background:#eef4f8;border-radius:8px;color:#3a3d43;font-size:13px;">Pour recevoir les rappels sur mobile, ouvrir motpsy.fr sur ton téléphone.</p>`;
+      }
+      var det = document.createElement("details");
+      det.className = "guide-install";
+      det.style.cssText = "margin-top:10px;border:0.5px solid #e3e5e8;border-radius:12px;overflow:hidden;";
+      det.innerHTML =
+        `<summary style="list-style:none;cursor:pointer;padding:14px;background:#eaf5fb;color:#1b6f97;font-weight:500;text-align:center;">📲 Installer le rappel quotidien</summary>` +
+        `<div style="padding:14px 16px;font-size:14px;color:#3a3d43;">` + etapes + `</div>`;
+      zl.appendChild(det);
+    })();
     afficherMessageFinal();
     afficherLienRejouer();
 }
