@@ -580,3 +580,25 @@ html[data-theme="dark"] img.logo-sombre { display: block !important; }
     color: #777;
     text-decoration: underline;
 }
+
+/* --- Touche Entrée : élargie, bleue, libellé « ENTRÉE ⏎ » --- */
+#touche-ENTREE {
+  flex: 2 1 0 !important;
+  min-width: 84px !important;
+  background: #38a6d8 !important;
+  color: #fff !important;
+  font-size: 0 !important;            /* masque le glyphe ↲ existant */
+  font-weight: 700 !important;
+  border: none !important;
+}
+#touche-ENTREE::after {
+  content: "ENTRÉE ⏎";
+  font-size: 14px;
+  letter-spacing: .5px;
+  white-space: nowrap;
+}
+/* touche Effacer : légèrement teintée pour la distinguer */
+#touche-EFFACER {
+  background: #f2d9dc !important;
+  color: #c0304a !important;
+}
