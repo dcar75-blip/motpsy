@@ -181,55 +181,79 @@ function terminer(victoire) {
     afficherMessageFinal();
     afficherLienRejouer();
 }
-// Graine fixe du parcours MotPsy54 : à rang égal, une date garde toujours
-// la même place relative dans l'ordre mélangé, même quand le pool grossit
-// (chaque nouvelle date passée s'insère selon son propre rang, sans
-// rebrasser les dates déjà présentes).
-const SEED_PARCOURS_54 = "motpsy54-v1";
-
 function afficherLienRejouer() {
-    const DEBUT_OFFICIEL = "2026-09-12";
     let cleJour = obtenirCleJourMarseille();
     const dateForcee = new URLSearchParams(location.search).get("date");
     if (dateForcee && /^\d{4}-\d{2}-\d{2}$/.test(dateForcee)) {
         cleJour = dateForcee;
     }
 
-    const pool = LISTE_MOTS_A_TROUVER.filter(e => {
+    // max = nombre de parties réellement passées (comptées par date), et
+    // JAMAIS infosMots.numeroPartie - 1 : en supervision, numeroPartie suit
+    // le mot rejoué (qui peut être n'importe quelle ancienne partie), pas le
+    // calendrier réel — la borne resterait stable et donnerait accès à tout
+    // le passé.
+    const max = LISTE_MOTS_A_TROUVER.filter(e => {
         const d = normaliserDate(e[5]);
-        return d && d >= DEBUT_OFFICIEL && d < cleJour;
-    });
+        return d && d < cleJour;
+    }).length;
 
-    // Garde-fou existant : avant le 12 septembre (ou tant qu'aucun mot n'est
-    // encore passé), le pool est vide. On n'affiche simplement pas le lien.
-    if (pool.length < 1) return;
-
-    // Parcours sans répétition : ordre mélangé mais fixe (rang intrinsèque
-    // par date), puis on avance d'un cran par jour écoulé depuis le
-    // lancement — chaque mot repassé n'est revu qu'une fois le pool
-    // entièrement parcouru.
-    const dispo = pool.slice().sort((a, b) => {
-        const rangA = hashChaine(SEED_PARCOURS_54 + normaliserDate(a[5]));
-        const rangB = hashChaine(SEED_PARCOURS_54 + normaliserDate(b[5]));
-        return rangA - rangB;
-    });
-
-    const [dy, dm, dd] = DEBUT_OFFICIEL.split('-').map(Number);
-    const [cy, cm, cd] = cleJour.split('-').map(Number);
-    const diffJours = Math.round((Date.UTC(cy, cm - 1, cd) - Date.UTC(dy, dm - 1, dd)) / 86400000);
-
-    const dateChoisie = normaliserDate(dispo[diffJours % dispo.length][5]);
+    // Garde-fou : avant qu'aucune partie ne soit passée (jour 1), pas de carte.
+    if (max < 1) return;
 
     const grille = document.querySelector('#zone-liens .liens-grid');
     if (!grille) return;
 
+    const carte = document.createElement('div');
+    carte.className = 'lien-carte carte-rejouer';
+    carte.innerHTML = `
+        <button type="button" class="declencheur-rejouer">
+            <span class="lien-carte-titre">🔢 Une ancienne partie</span>
+            <span class="lien-carte-sous-texte">Choisis le numéro à rejouer</span>
+        </button>
+        <div class="form-rejouer" hidden>
+            <div class="ligne-champ-rejouer">
+                <input type="number" class="champ-numero-partie" inputmode="numeric" min="1" max="${max}" aria-label="Numéro de partie à rejouer">
+                <button type="button" class="bouton-ok-rejouer">OK</button>
+            </div>
+            <p class="aide-numero-partie">Choisis un numéro entre 1 et ${max}</p>
+            <p class="erreur-numero-partie" hidden></p>
+        </div>
+    `;
+    grille.appendChild(carte);
 
-    const a = document.createElement('a');
-    a.className = 'lien-carte';
-    a.href = `/?date=${dateChoisie}`;
-    a.innerHTML = '<span class="lien-carte-titre">🎲 MotPsy54</span>'
-              + '<span class="lien-carte-sous-texte">Une ancienne partie au hasard</span>';
-    grille.appendChild(a);
+    const declencheur = carte.querySelector('.declencheur-rejouer');
+    const formulaire = carte.querySelector('.form-rejouer');
+    const champ = carte.querySelector('.champ-numero-partie');
+    const erreur = carte.querySelector('.erreur-numero-partie');
+    const boutonOk = carte.querySelector('.bouton-ok-rejouer');
+
+    declencheur.addEventListener('click', () => {
+        declencheur.hidden = true;
+        formulaire.hidden = false;
+        champ.focus();
+    });
+
+    function validerEtRejouer() {
+        const valeur = champ.value.trim();
+        const n = Number(valeur);
+        if (valeur === "" || !Number.isInteger(n) || n < 1 || n > max) {
+            erreur.textContent = `Numéro invalide (entre 1 et ${max}).`;
+            erreur.hidden = false;
+            return;
+        }
+        const dateChoisie = normaliserDate(LISTE_MOTS_A_TROUVER[n - 1][5]);
+        location.href = `/?date=${dateChoisie}`;
+    }
+
+    champ.addEventListener('input', () => { erreur.hidden = true; });
+    champ.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            validerEtRejouer();
+        }
+    });
+    boutonOk.addEventListener('click', validerEtRejouer);
 }
 function genererGrillePartage(victoire) {
     const numeroMotpsy = infosMots.numeroPartie;
