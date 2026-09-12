@@ -128,7 +128,8 @@ function terminer(victoire) {
             <div class="liens-grid">
                 <a class="lien-carte"
                 href="mailto:motpsy@motpsy.fr?subject=Suggestion%20MotPsy&body=Envoyez-nous%20vos%20suggestions%2C%20des%20mots%20%C3%A0%20trouver%2C%20des%20d%C3%A9finitions...">
-                Écrire à MotPsy&nbsp;!
+                <span class="lien-carte-titre">Faire deviner votre mot favori à tout le monde</span>
+                <span class="lien-carte-sous-texte">Écrire à MotPsy</span>
                 </a>
             </div>
         </div>
@@ -208,8 +209,8 @@ function afficherLienRejouer() {
     carte.className = 'lien-carte carte-rejouer';
     carte.innerHTML = `
         <button type="button" class="declencheur-rejouer">
-            <span class="lien-carte-titre">🔢 Une ancienne partie</span>
-            <span class="lien-carte-sous-texte">Choisis le numéro à rejouer</span>
+            <span class="lien-carte-titre">Rejouer une ancienne partie de votre choix</span>
+            <span class="lien-carte-sous-texte">MotPsy 54</span>
         </button>
         <div class="form-rejouer" hidden>
             <div class="ligne-champ-rejouer">
@@ -220,7 +221,7 @@ function afficherLienRejouer() {
             <p class="erreur-numero-partie" hidden></p>
         </div>
     `;
-    grille.appendChild(carte);
+    grille.prepend(carte);
 
     const declencheur = carte.querySelector('.declencheur-rejouer');
     const formulaire = carte.querySelector('.form-rejouer');
