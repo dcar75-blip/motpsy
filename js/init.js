@@ -40,18 +40,29 @@ window.onload = () => {
     if (typeof afficherHier === "function") {
         afficherHier();
     }
+
+    // 1bis. Lien de partage autoportant (&r=, partie PASSÉE uniquement) :
+    // écran de relecture en lecture seule, sans grille jouable ni clavier.
+    // On sort du flux normal avant toute écriture/lecture de localStorage.
+    const essaisPartages = decoderTentativesDepuisUrl();
+    if (essaisPartages) {
+        afficherEcranRelecturePartage(essaisPartages);
+        return;
+    }
+
     // 2. On dessine la grille vide
     initialiserGrille();
     // 3. On génère les touches du clavier avec les symboles de CONFIG
     genererClavier();
-    // 4. On recharge la grille
+    // 4. Migration jetable (cf. js/sauvegarde.js) puis rechargement de la grille
+    migrerAncienneSauvegarde();
     const etatPrecedent = chargerPartie();
     if (etatPrecedent) {
         rejouerPartie(etatPrecedent);
     }
     // 5. Message initial et Avertissement caractères spéciaux (uniquement)
     afficherMessageinitial();
-    
+
     // 6. Écouteur global pour le clavier physique
     window.addEventListener('keydown', (e) => {
         if (partieTerminee) return;
@@ -75,6 +86,79 @@ window.onload = () => {
         
     }
 };
+// Décode le paramètre &r= d'un lien de partage autoportant. Ne renvoie des
+// tentatives QUE pour une partie passée (jamais le jour réel, même si &r=
+// est présent à la main dans l'URL) : garde-fou anti-spoiler en double de
+// construireLienPartage() (js/fin-partie.js), qui ne génère jamais &r= pour
+// le jour même.
+function decoderTentativesDepuisUrl() {
+    const jourReel = obtenirCleJourMarseille();
+    if (obtenirJourPartie() === jourReel) return null;
+    const r = new URLSearchParams(location.search).get("r");
+    if (!r) return null;
+    try {
+        const b64 = r.replace(/-/g, '+').replace(/_/g, '/');
+        const texte = atob(b64 + '='.repeat((4 - b64.length % 4) % 4));
+        const essais = texte.split("|").filter(Boolean);
+        if (!essais.length || essais.length > CONFIG.maxEssais) return null;
+        if (!essais.every(m => m.length === motSolution.length && /^[A-Z'-]+$/.test(m))) return null;
+        const gagne = essais[essais.length - 1] === motSolution;
+        if (!gagne && essais.length < CONFIG.maxEssais) return null; // incohérent : rejet
+        return essais;
+    } catch (e) {
+        return null;
+    }
+}
+
+// Écran de relecture en lecture seule pour un lien de partage &r= (partie
+// passée). N'affiche QUE des couleurs (jamais de lettres dans le DOM) : un
+// visiteur qui n'a pas joué ne peut pas voir le mot solution à l'écran.
+// Bouton "Jouer cette partie" -> relance la même date SANS &r=, donc grille
+// vierge jouable, cloisonnée (js/sauvegarde.js) de la partie du jour du
+// visiteur.
+function afficherEcranRelecturePartage(essais) {
+    const victoire = essais[essais.length - 1] === motSolution;
+    const numeroMotpsy = infosMots.numeroPartie;
+    const jourPartie = obtenirJourPartie();
+
+    const clavier = document.getElementById('clavier');
+    if (clavier) clavier.style.display = 'none';
+
+    // Construction directe (pas d'appel à initialiserGrille/majAffichage : ces
+    // fonctions du jeu interactif peuvent révéler la 1ère lettre du mot pour
+    // les mots longs — hors-sujet ici, à éviter par principe même sans risque
+    // réel de fuite visible).
+    const grille = document.getElementById('grille-jeu');
+    grille.innerHTML = '';
+    essais.forEach(mot => {
+        const couleurs = calculerCouleursEssai(mot);
+        const ligneDiv = document.createElement('div');
+        ligneDiv.className = 'ligne';
+        couleurs.forEach(c => {
+            const caseDiv = document.createElement('div');
+            caseDiv.className = `case ${c}`;
+            ligneDiv.appendChild(caseDiv);
+        });
+        grille.appendChild(ligneDiv);
+    });
+
+    const zoneMsg = document.getElementById('zone-message');
+    zoneMsg.innerHTML = `
+    <div class="resultat-final" style="text-align: center;">
+        <span style="color:#e7002a; font-size:1.6rem; font-weight:bold;">
+            Partie n°${numeroMotpsy} — ${victoire ? essais.length + '/' + CONFIG.maxEssais : '-/' + CONFIG.maxEssais}
+        </span><br>
+        <p>Grille partagée — lecture seule</p>
+        <button type="button" id="bouton-jouer-cette-partie" class="bouton-partage">Jouer cette partie</button>
+    </div>`;
+    const boutonJouer = document.getElementById('bouton-jouer-cette-partie');
+    if (boutonJouer) {
+        boutonJouer.addEventListener('click', () => {
+            location.href = `/?date=${jourPartie}`;
+        });
+    }
+}
+
 async function rejouerPartie(etat) {
     // 1. On remplit et on anime les essais sauvegardés
     for (let index = 0; index < etat.essais.length; index++) {

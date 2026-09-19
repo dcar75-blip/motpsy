@@ -18,6 +18,18 @@ function normaliserDate(valeur) {
     return String(valeur).slice(0, 10);
 }
 
+// Jour de la PARTIE affichée : ?date= si présent et valide (override de test /
+// rejeu / partage), sinon le jour réel en heure de Marseille.
+// À utiliser partout où on identifie "quelle partie" est en cours (sauvegarde,
+// numéro de partie...) — jamais new Date() seul, qui ignore un rejeu/partage.
+function obtenirJourPartie() {
+    const dateForcee = new URLSearchParams(location.search).get("date");
+    if (dateForcee && /^\d{4}-\d{2}-\d{2}$/.test(dateForcee)) {
+        return dateForcee;
+    }
+    return obtenirCleJourMarseille();
+}
+
 // Générateur pseudo-aléatoire déterministe à partir d'une chaîne
 // (permet un tirage de secours STABLE sur toute la journée)
 function hashChaine(str) {
@@ -31,12 +43,8 @@ function hashChaine(str) {
 // Choisit le mot du jour à partir de sa DATE (et non de sa position dans la liste).
 // Format d'une entrée : [mot, définition, catégorie, photo, cacher1ereLettre, date]
 function obtenirInfosMots() {
-   let cleAujourdhui = obtenirCleJourMarseille();
-    // Override de test : ?date=AAAA-MM-JJ force le jour courant (tests + futur mode événement)
-    const dateForcee = new URLSearchParams(location.search).get("date");
-    if (dateForcee && /^\d{4}-\d{2}-\d{2}$/.test(dateForcee)) {
-        cleAujourdhui = dateForcee;
-    }
+    // ?date=AAAA-MM-JJ force le jour courant (tests + rejeu + futur mode événement)
+    const cleAujourdhui = obtenirJourPartie();
     const [ay, am, aj] = cleAujourdhui.split('-').map(Number);
     const dateAujourdhui = new Date(Date.UTC(ay, am - 1, aj));
     const cleHier = obtenirCleJourMarseille(new Date(dateAujourdhui.getTime() - 86400000));

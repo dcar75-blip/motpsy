@@ -62,6 +62,8 @@ const offrePremiere = offrirPremiereLettre();
 }
 
 // Cette fonction anime la révélation lettre par lettre
+// Barème de couleurs dupliqué — répercuter tout changement dans l'autre
+// (calculerCouleursEssai, js/fin-partie.js, ligne "Calcul des couleurs").
 async function colorerLigneAnimee(saisie) {
     const cases = document.querySelectorAll(`#ligne-${ligneActuelle} .case`);
     let solArr = motSolution.split('');

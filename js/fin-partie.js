@@ -256,6 +256,54 @@ function afficherLienRejouer() {
     });
     boutonOk.addEventListener('click', validerEtRejouer);
 }
+// Barème de couleurs dupliqué — répercuter tout changement dans l'autre
+// (colorerLigneAnimee, js/moteur.js). Duplication volontaire (cf. plan de
+// correction du 2026-09-19) : évite de toucher le moteur de jeu en prod pour
+// un besoin d'affichage en lecture seule (écran de relecture d'un partage).
+function calculerCouleursEssai(mot) {
+    let solArr = motSolution.split('');
+    let result = Array(motSolution.length).fill('absent');
+    for (let i = 0; i < Math.min(mot.length, motSolution.length); i++) {
+        if (mot[i] === motSolution[i]) {
+            result[i] = 'correct';
+            solArr[i] = null;
+        }
+    }
+    for (let i = 0; i < mot.length; i++) {
+        if (result[i] !== 'correct' && solArr.includes(mot[i])) {
+            result[i] = 'present';
+            solArr[solArr.indexOf(mot[i])] = null;
+        }
+    }
+    return result;
+}
+
+// Construit l'URL à partager. Partie du jour même : lien nu (jamais de
+// tentatives encodées, pour ne jamais pouvoir spoiler le mot du jour).
+// Partie passée : lien autoportant avec les tentatives encodées en base64url
+// dans &r=, pour que la relecture marche depuis n'importe quel contexte
+// (PWA / Safari / navigateur in-app), sans dépendre du localStorage de qui
+// ouvre le lien. Le base64 n'est PAS un chiffrement : ne jamais l'utiliser
+// pour la partie du jour (cf. plan de correction du 2026-09-19).
+function construireLienPartage() {
+    const jourReel = obtenirCleJourMarseille();
+    const jourPartie = obtenirJourPartie();
+    if (jourPartie === jourReel) {
+        return "https://motpsy.fr";
+    }
+    const essais = [];
+    for (let i = 0; i <= ligneActuelle; i++) {
+        const cases = document.querySelectorAll(`#ligne-${i} .case`);
+        let mot = "";
+        cases.forEach(c => mot += c.textContent);
+        if (mot.length === motSolution.length && !mot.includes(".")) {
+            essais.push(mot);
+        }
+    }
+    const r = btoa(essais.join("|")).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    return `https://motpsy.fr/?date=${jourPartie}&r=${r}`;
+}
+
 function genererGrillePartage(victoire) {
     const numeroMotpsy = infosMots.numeroPartie;
     let texte = `#MOTPSY n°${numeroMotpsy}/1000 - `;
@@ -268,24 +316,25 @@ function genererGrillePartage(victoire) {
     for (let i = 0; i <= ligneActuelle; i++) {
         const cases = document.querySelectorAll(`#ligne-${i} .case`);
         let ligneEmoji = "";
-        
+
         cases.forEach(c => {
             if (c.classList.contains('correct')) ligneEmoji += "🟥";
             else if (c.classList.contains('present')) ligneEmoji += "🟨";
             else ligneEmoji += "🟦";
         });
-        
+
         texte += ligneEmoji + "\n";
     }
-    texte += "https://motpsy.fr\n";
+    texte += construireLienPartage() + "\n";
     return texte;
 }
 function copierPartage(texte, element) {
+    const lien = construireLienPartage();
     const estMobile = navigator.userAgentData?.mobile
         ?? /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     if (estMobile && navigator.share) {
-        const texteSansAdresse = texte.replace(/https?:\/\/motpsy\.fr\/?\s*$/, "");
-        navigator.share({ text: texteSansAdresse, url: "https://motpsy.fr" }).catch(err => {
+        const texteSansAdresse = texte.replace(new RegExp(lien.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*$'), "");
+        navigator.share({ text: texteSansAdresse, url: lien }).catch(err => {
             if (err && err.name === "AbortError") return;
         });
         return;
