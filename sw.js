@@ -2,7 +2,7 @@
 // network-first pour code + données, cache-first pour images + polices.
 // Ignore le cross-origin (GoatCounter, liens externes).
 
-const CACHE_VERSION = 'motpsy-v2';   // bumper CE numéro si tu modifies ce fichier
+const CACHE_VERSION = 'motpsy-v3';   // bumper CE numéro si tu modifies ce fichier
 const PRECACHE = ['/'];
 
 self.addEventListener('install', (event) => {

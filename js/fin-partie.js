@@ -328,18 +328,32 @@ function genererGrillePartage(victoire) {
     texte += construireLienPartage() + "\n";
     return texte;
 }
+// Ajoutés seulement si le texte reste dans la limite Bluesky (300 graphèmes).
+// #MotPsy est omis : le titre "#MOTPSY n°…" en tient déjà lieu.
+const HASHTAGS_PARTAGE = "#Psychanalyse #Psychiatrie";
+const LIMITE_PARTAGE = 300;
+function longueurGraphemes(str) {
+    if (typeof Intl !== "undefined" && Intl.Segmenter) {
+        return [...new Intl.Segmenter("fr", { granularity: "grapheme" }).segment(str)].length;
+    }
+    return [...str].length;
+}
+function ajouterHashtags(texte, longueurEnPlus = 0) {
+    const avecHashtags = texte + HASHTAGS_PARTAGE;
+    return longueurGraphemes(avecHashtags) + longueurEnPlus <= LIMITE_PARTAGE ? avecHashtags : texte;
+}
 function copierPartage(texte, element) {
     const lien = construireLienPartage();
     const estMobile = navigator.userAgentData?.mobile
         ?? /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     if (estMobile && navigator.share) {
         const texteSansAdresse = texte.replace(new RegExp(lien.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*$'), "");
-        navigator.share({ text: texteSansAdresse, url: lien }).catch(err => {
+        navigator.share({ text: ajouterHashtags(texteSansAdresse, longueurGraphemes(lien) + 1), url: lien }).catch(err => {
             if (err && err.name === "AbortError") return;
         });
         return;
     }
-    navigator.clipboard.writeText(texte).then(() => {
+    navigator.clipboard.writeText(ajouterHashtags(texte)).then(() => {
         if (element) {
             element.innerHTML = "Score copié, prêt à être envoyé ✓";
             element.classList.remove("cliquable-partage");
