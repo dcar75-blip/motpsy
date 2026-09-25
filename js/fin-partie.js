@@ -312,6 +312,7 @@ function genererGrillePartage(victoire) {
         const special = messageVictoireSpecial(ligneActuelle, true);
         if (special) texte += special + "\n";
     }
+    texte += "\n";
 
     for (let i = 0; i <= ligneActuelle; i++) {
         const cases = document.querySelectorAll(`#ligne-${i} .case`);
@@ -325,12 +326,12 @@ function genererGrillePartage(victoire) {
 
         texte += ligneEmoji + "\n";
     }
-    texte += construireLienPartage() + "\n";
+    texte += "\n" + construireLienPartage() + "\n";
     return texte;
 }
 // Ajoutés seulement si le texte reste dans la limite Bluesky (300 graphèmes).
 // #MotPsy est omis : le titre "#MOTPSY n°…" en tient déjà lieu.
-const HASHTAGS_PARTAGE = "#Psychanalyse #Psychiatrie";
+const HASHTAGS_PARTAGE = "#Psychanalyse #Psychiatrie #Psychologie";
 const LIMITE_PARTAGE = 300;
 function longueurGraphemes(str) {
     if (typeof Intl !== "undefined" && Intl.Segmenter) {
@@ -338,17 +339,17 @@ function longueurGraphemes(str) {
     }
     return [...str].length;
 }
-function ajouterHashtags(texte, longueurEnPlus = 0) {
+function ajouterHashtags(texte) {
     const avecHashtags = texte + HASHTAGS_PARTAGE;
-    return longueurGraphemes(avecHashtags) + longueurEnPlus <= LIMITE_PARTAGE ? avecHashtags : texte;
+    return longueurGraphemes(avecHashtags) <= LIMITE_PARTAGE ? avecHashtags : texte;
 }
+// Le lien reste dans le texte (pas de champ url séparé) pour garder l'ordre
+// grille / lien / hashtags quelle que soit l'app de destination.
 function copierPartage(texte, element) {
-    const lien = construireLienPartage();
     const estMobile = navigator.userAgentData?.mobile
         ?? /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     if (estMobile && navigator.share) {
-        const texteSansAdresse = texte.replace(new RegExp(lien.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*$'), "");
-        navigator.share({ text: ajouterHashtags(texteSansAdresse, longueurGraphemes(lien) + 1), url: lien }).catch(err => {
+        navigator.share({ text: ajouterHashtags(texte) }).catch(err => {
             if (err && err.name === "AbortError") return;
         });
         return;
